@@ -1,0 +1,27 @@
+                          Upload Information Template for Hobbes.nmsu.edu
+                          ===============================================
+
+        Archive Filename: d70reader_src_v021.zip
+       Short Description: Source Code for EXIF reader and JPEG extractor for Nikon D70/D100/D2H/D2X. Ver 0.21
+        Long Description: Reads EXIF data from Nikon D70/D100/D2H/D2X NEF or JPG files. Outputs to text, html or xml. Can also extract the JPEG thumbnail from a NEF file. May work with other Nikon cameras.
+
+      Proposed directory
+           for placement: /pub/os2/apps/graphics
+
+               Your name: Bill Nau
+           Email address: nau@tiny.net
+    Program contact name: Jonathan Oman
+   Program contact email: joman@gogebic-pc.com
+             Program URL: http://www.gogebic-pc.com/d70/
+
+      Would you like the
+   contact email address
+    included in listings? no
+
+Operating System/Version: 
+ Additional requirements: Long file names
+
+                Replaces: (none)
+
+
+

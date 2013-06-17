@@ -1,0 +1,117 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: XAPToolkit - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP232.tmp" with contents
+[
+/nologo /ML /W3 /GR /GX /O2 /I "..\..\Headers" /I "..\..\Source\DOM" /I "..\..\Source\Parser" /I "..\..\Source\Toolkit" /D "NDEBUG" /D "_WINDOWS" /D "XAP_LIB" /D XAP_DEBUG_BUILD=0 /D "WIN32" /D "WIN_ENV" /D "XAP_BUILT_IN" /D XAP_FORCE_NORMAL_ALLOC=1 /Fo"Release/" /Fd"Release/" /FD /c 
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\ConvertUTF.c"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\DefaultAllocator.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\DOMGlue.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\gen_convert_text.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\MetaXAP.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\NormTree.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\NormTreeSerialize.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\Paths.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\RDFToNormTrees.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\UtilityXAP.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\XAPStatics.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\XAPTkAlloc.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\XAPTkData.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Toolkit\XAPTkFuncs.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\DOMDoc.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPDOM.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPElementFactory.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPHashtable.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPNode.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPPtrList.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPString.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\DOM\XPXMLParser.cpp"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Parser\dllmain.c"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Parser\hashtable.c"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Parser\xmlparse.c"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Parser\xmlrole.c"
+"P:\work\d70readerXMP\source\XMP_SDK\MetadataToolkit\Source\Parser\xmltok.c"
+]
+Creating command line "cl.exe @P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP232.tmp" 
+Creating temporary file "P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP233.tmp" with contents
+[
+/nologo /out:"Release\XMPToolkitMT.lib" 
+.\Release\ConvertUTF.obj
+.\Release\DefaultAllocator.obj
+.\Release\DOMGlue.obj
+.\Release\gen_convert_text.obj
+.\Release\MetaXAP.obj
+.\Release\NormTree.obj
+.\Release\NormTreeSerialize.obj
+.\Release\Paths.obj
+.\Release\RDFToNormTrees.obj
+.\Release\UtilityXAP.obj
+.\Release\XAPStatics.obj
+.\Release\XAPTkAlloc.obj
+.\Release\XAPTkData.obj
+.\Release\XAPTkFuncs.obj
+.\Release\DOMDoc.obj
+.\Release\XPDOM.obj
+.\Release\XPElementFactory.obj
+.\Release\XPHashtable.obj
+.\Release\XPNode.obj
+.\Release\XPPtrList.obj
+.\Release\XPString.obj
+.\Release\XPXMLParser.obj
+.\Release\dllmain.obj
+.\Release\hashtable.obj
+.\Release\xmlparse.obj
+.\Release\xmlrole.obj
+.\Release\xmltok.obj
+]
+Creating command line "link.exe -lib @P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP233.tmp"
+<h3>Output Window</h3>
+Compiling...
+ConvertUTF.c
+Generating Code...
+Compiling...
+DefaultAllocator.cpp
+DOMGlue.cpp
+gen_convert_text.cpp
+MetaXAP.cpp
+NormTree.cpp
+NormTreeSerialize.cpp
+Paths.cpp
+RDFToNormTrees.cpp
+UtilityXAP.cpp
+XAPStatics.cpp
+XAPTkAlloc.cpp
+XAPTkData.cpp
+XAPTkFuncs.cpp
+DOMDoc.cpp
+XPDOM.cpp
+XPElementFactory.cpp
+XPHashtable.cpp
+XPNode.cpp
+XPPtrList.cpp
+XPString.cpp
+Generating Code...
+Compiling...
+XPXMLParser.cpp
+Generating Code...
+Compiling...
+dllmain.c
+hashtable.c
+xmlparse.c
+xmlrole.c
+xmltok.c
+Generating Code...
+Creating library...
+
+
+
+<h3>Results</h3>
+XMPToolkitMT.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

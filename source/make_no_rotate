@@ -1,0 +1,5 @@
+#!/bin/sh
+cc -o d70reader -I ./jpeglib -D __UNIX_ONLY__ -D ALLOW_ROTATE=0 d70reader.c d70buildweb.c d70resize.c d70utils.c d70jpegtran.c ./jpeglib/cdjpeg.o ./jpeglib/rdswitch.o ./jpeglib/transupp.o ./jpeglib/libjpeg.a
+cp ./d70reader ../bin/d70reader_no_rotate
+rm ./d70reader
+

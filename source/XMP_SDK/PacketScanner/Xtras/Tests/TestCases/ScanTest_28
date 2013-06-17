@@ -1,0 +1,13 @@
+XML declaration and XML comments before packet and within XML data (not recommended, but valid):
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this is an xml comment -->
+
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> 
+<!-- this is also a comment -->                                     <?xpacket end='r'?> ---tG 
+
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> 
+<?xml version="1.0" encoding="UTF-8"?>                              <?xpacket end='r'?> ---tG    
+                                                                                                 
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> 
+<!-- was-xml version="1.0" standalone="yes" -->                     <?xpacket end='r'?> ---tG                                                                                                 

@@ -1,0 +1,35 @@
+ Packets with valid white space characters, XML comments and XML processing instructions           
+ located before the trailer and valid white space in the padding after the trailer:  
+                                                                                                  |
+ 3        1         2         3         4         5         6         7         8         9       9
+ 4 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678
+ 5                                                                                                |  
+ 6 XML declaration and comment before any packets:
+ 7 <?xml version="1.0" encoding="UTF-8"?>
+ 8 <!-- this is an xml comment. was-xml version="1.0" standalone="yes"-->                         |
+ 9                                                                                                |                                                                                                                                                                                               |
+10 spaces, tabs and carriage returns in padding located before trailer:                           |
+11 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>     				                   
+																									
+       <?xpacket end='r'?>---tG                                                                   |
+                                                                                                  |
+15 XML comments in padding located before trailer:                                                |
+16 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>     			                       
+      			<!-- here is a comment in the padding --!>         <?xpacket end='r'?>---tG       |
+                                                                                                  |
+19 XML processing instruction in padding located before trailer     			                  |
+20 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>     			                       
+      			<?xml version="1.0" encoding="UTF-8"?>                                             
+                                                                   <?xpacket end='r'?>---tG       |
+23 spaces, tabs and carriage returns in padding after the trailer:                                |
+24 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes="800"?>         <?xpacket end='r'?>
+					                                                                                              
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG                                                                                       
+33        1         2         3         4         5         6         7         8         9       9
+34 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMP does not write the above XML declaration.  It is     -->
+<!-- present here only for documentation.                     -->
+
+<!-- Note that this sample file uses the new name of the      -->
+<!-- Toolkit, "XMP", rather than the former name "XAP".       -->
+<!-- The current version of the XMPDumper will continue to    -->
+<!-- write out namespace prefixes beginning with "xap"        -->
+<!-- rather than "xmp".                                       -->
+
+<!-- XMP Core Schema Example -->
+<!-- These properties are common to all applications.         -->
+
+<!-- Two XML packets are shown.  The first uses an expanded   -->
+<!-- form similar to XMP's "pretty" format, with additional   -->
+<!-- comments.  The second uses XMP's compact form, but with  -->
+<!-- newlines and indentation added for readability.          -->
+
+<!-- The following element is added only to make this a valid -->
+<!-- XML file. It is not a part of XMP.                       -->
+<top_level_element>
+
+<!-- ======================================================== -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <!-- Most applications will have an empty about attribute. -->
+  <!-- It is recommended, however, that the about attribute  -->
+  <!-- be set to the DocumentID or InstanceID.               -->
+
+  <rdf:Description about=''
+   xmlns:xmp='http://ns.adobe.com/xap/1.0/'>
+
+    <xmp:Advisory>
+      <rdf:Bag>
+        <rdf:li>http://ns.adobe.com/xap/1.0/ BaseURL</rdf:li>
+        <rdf:li>http://ns.adobe.com/xap/1.0/ Description/*[@xml:lang='en']</rdf:li>
+        <rdf:li>http://ns.adobe.com/xap/1.0/ Keywords/*[2]</rdf:li>
+      </rdf:Bag>
+    </xmp:Advisory>
+
+    <xmp:Author>Jane Doe</xmp:Author>  <!-- an alias of xmp:Authors/*[1] -->
+
+    <xmp:Authors>  <!-- an alias of dc:creator -->
+      <rdf:Seq>
+        <rdf:li>Jane Doe</rdf:li>
+        <rdf:li>John Doe</rdf:li>
+        <rdf:li>Jack Doe</rdf:li>
+      </rdf:Seq>
+    </xmp:Authors>
+
+    <xmp:BaseURL>http://mydoc</xmp:BaseURL>
+
+    <xmp:CreateDate>2001-08-13T10:42:24Z</xmp:CreateDate>
+
+    <xmp:CreatorTool>Microsoft Visual C++ for Windows</xmp:CreatorTool>
+
+    <xmp:Description>  <!-- an alias of dc:description -->
+      <rdf:Alt>
+        <!-- The following text contains Unicode characters. Note that    -->
+        <!-- the XMPDumper is not able to display all of them.            -->
+        <rdf:li xml:lang='en'>This document is a sample XML file</rdf:li>
+        <rdf:li xml:lang='fr'>Ce document est un fichier d'exemple XML</rdf:li>
+        <rdf:li xml:lang='de'>Dieses Dokument ist eine XML Beispieldatei</rdf:li>
+      </rdf:Alt>
+    </xmp:Description>
+
+    <xmp:Format>text/xml</xmp:Format>  <!-- an alias of dc:format -->
+
+    <xmp:Keywords>  <!-- an alias of dc:subject -->
+      <rdf:Bag>
+        <rdf:li>XMP</rdf:li>
+        <rdf:li>Schema</rdf:li>
+        <rdf:li>sample</rdf:li>
+      </rdf:Bag>
+    </xmp:Keywords>
+
+    <xmp:Locale>  <!-- an alias of dc:language -->
+      <rdf:Bag>
+          <rdf:li>en</rdf:li>
+          <rdf:li>fr</rdf:li>
+          <rdf:li>de</rdf:li>
+      </rdf:Bag>
+    </xmp:Locale>
+
+    <xmp:MetadataDate>2001-08-13T10:42:24Z</xmp:MetadataDate>
+
+    <xmp:ModifyDate>2001-08-13T11:02:13Z</xmp:ModifyDate>
+
+    <xmp:Nickname>sample</xmp:Nickname>
+
+    <xmp:Title>  <!-- an alias of dc:title -->
+      <rdf:Alt>
+        <rdf:li xml:lang='en'>XMP Core Schema Example</rdf:li>
+        <rdf:li xml:lang='fr'>XMP Core Schema Exemple</rdf:li>
+        <rdf:li xml:lang='de'>XMP Core Schema Beispiel</rdf:li>
+      </rdf:Alt>
+    </xmp:Title>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+<!-- ======================================================== -->
+
+<!-- Here is the second, compact packet with improved readability. -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF 
+ xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' 
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <rdf:Description about=''
+   xmlns:xmp='http://ns.adobe.com/xap/1.0/' 
+
+   xmp:Author='Jane Doe'
+   xmp:BaseURL='http://mydoc'
+   xmp:CreateDate='2001-08-13T10:42:24Z'
+   xmp:CreatorTool='Microsoft Visual C++ for Windows'
+   xmp:Format='text/xml'
+   xmp:MetadataDate='2001-08-13T10:42:24Z'
+   xmp:ModifyDate='2001-08-13T11:02:13Z'
+   xmp:Nickname='sample'>
+    
+    <xmp:Advisory>
+      <rdf:Bag>    
+        <rdf:li>http://purl.org/dc/elements/1.1/ format</rdf:li>
+        <rdf:li>http://ns.adobe.com/xap/1.0/xap/g/ NumberOfColors</rdf:li>
+        <rdf:li>http://ns.adobe.com/xap/1.0/xap/g/img/ Resolution/stRes:units</rdf:li>
+      </rdf:Bag>
+    </xmp:Advisory>
+  
+    <xmp:Authors>  
+      <rdf:Seq>
+        <rdf:li>Jane Doe</rdf:li>
+        <rdf:li>John Doe</rdf:li>
+        <rdf:li>Jack Doe</rdf:li>
+      </rdf:Seq>
+    </xmp:Authors>
+  
+    <xmp:Description>
+      <rdf:Alt>
+        <rdf:li xml:lang='en'>This document is a sample XML file</rdf:li>
+        <rdf:li xml:lang='fr'>Ce document est un fichier d'exemple XML</rdf:li>
+        <rdf:li xml:lang='de'>Dieses Dokument ist eine XML Beispieldatei</rdf:li>
+      </rdf:Alt>
+    </xmp:Description>
+  
+    <xmp:Keywords>
+      <rdf:Bag>
+        <rdf:li>XMP</rdf:li>
+        <rdf:li>Core</rdf:li>
+        <rdf:li>Schema</rdf:li>
+        <rdf:li>sample</rdf:li>
+      </rdf:Bag>
+    </xmp:Keywords>
+  
+    <xmp:Locale>
+      <rdf:Bag>
+        <rdf:li>en</rdf:li>
+        <rdf:li>fr</rdf:li>
+        <rdf:li>de</rdf:li>
+      </rdf:Bag>
+    </xmp:Locale>
+  
+    <xmp:Title>
+      <rdf:Alt>
+        <rdf:li xml:lang='en'>XMP Core Schema Example</rdf:li>
+        <rdf:li xml:lang='fr'>XMP Core Schema Exemple</rdf:li>
+        <rdf:li xml:lang='de'>XMP Core Schema Beispiel</rdf:li>
+      </rdf:Alt>
+    </xmp:Title>
+  
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+</top_level_element>

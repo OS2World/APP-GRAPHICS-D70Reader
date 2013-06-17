@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMP does not write the above XML declaration.  It is     -->
+<!-- present here only for documentation.                     -->
+
+<!-- Note that this sample file uses the new name of the      -->
+<!-- Toolkit, "XMP", rather than the former name "XAP".       -->
+<!-- The current version of the XMPDumper will continue to    -->
+<!-- write out namespace prefixes beginning with "xap"        -->
+<!-- rather than "xmp".                                       -->
+
+<!-- XMP Support Schema Example -->
+<!-- These properties describe a resource in a different file -->
+<!-- and should be set by a media management system, not an   -->
+<!-- authoring application.                                   -->
+
+<!-- Two XML packets are shown.  The first uses an expanded   -->
+<!-- form similar to XMP's "pretty" format, with additional   -->
+<!-- comments.  The second uses XMP's compact form, but with  -->
+<!-- newlines and indentation added for readability.          -->
+
+<!-- The following element is added only to make this a valid -->
+<!-- XML file. It is not a part of XMP.                       -->
+<top_level_element>
+
+<!-- ======================================================== -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <!-- Most applications will have an empty about attribute. -->
+  <!-- It is recommended, however, that the about attribute  -->
+  <!-- be set to the DocumentID or InstanceID.               -->
+
+  <rdf:Description about=''
+   xmlns:xmpS='http://ns.adobe.com/xap/1.0/s'
+   xmlns:stDsp='http://ns.adobe.com/xap/1.0/sType/FileDisposition#'>
+
+    <!-- The character entity &quot; is used instead of the  -->
+    <!-- special character double quote since the XMP        -->
+    <!-- Toolkit converts all special characters to their    -->
+    <!-- equivalent character entities when serializing the  -->
+    <!-- metadata.                                           -->
+
+    <xmpS:EntityTag>W/&quot;A weak ETag&quot;</xmpS:EntityTag>
+
+    <xmpS:FileDisposition>
+      <rdf:Alt>
+
+          <!-- This is an example of an Alt container that does not use -->
+          <!-- the xml:lang attribute.  An item is typically selected   -->
+          <!-- by the value of the OS property.                         -->
+
+          <rdf:li parseType='Resource'>
+            <stDsp:filename>aFile</stDsp:filename>
+            <stDsp:OS>Windows</stDsp:OS>
+            <stDsp:directoryPath>c:\mydir\path\</stDsp:directoryPath>
+          </rdf:li>
+
+          <rdf:li parseType='Resource'>
+            <stDsp:filename>aFile</stDsp:filename>
+            <stDsp:OS>MacOS</stDsp:OS>
+            <stDsp:directoryPath>hd:mydir:path:</stDsp:directoryPath>
+          </rdf:li>
+
+          <rdf:li parseType='Resource'>
+            <stDsp:filename>aFile</stDsp:filename>
+            <stDsp:OS>Unix</stDsp:OS>
+            <stDsp:directoryPath>/mydir/path/</stDsp:directoryPath>
+          </rdf:li>
+
+          <rdf:li parseType='Resource'>
+            <stDsp:filename>aPage</stDsp:filename>
+            <stDsp:OS>URL</stDsp:OS>
+            <stDsp:directoryPath>http://www.foo.bar/</stDsp:directoryPath>
+          </rdf:li>
+
+      </rdf:Alt>
+    </xmpS:FileDisposition>
+
+    <!-- The xmpS:ResourceID property should never be set by an    -->
+    <!-- authoring application.                                    -->
+
+    <xmpS:ResourceID>unique timestamp2001-08-14T11:02:13Z</xmpS:ResourceID>
+
+    <xmpS:Size>10000</xmpS:Size>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+<!-- ======================================================== -->
+
+<!-- Here is the second, compact packet with improved readability. -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF
+  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+  xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <rdf:Description about=''
+   xmlns:stDsp='http://ns.adobe.com/xap/1.0/sType/FileDisposition#'
+   xmlns:xmpS='http://ns.adobe.com/xap/1.0/s'
+
+   xmpS:EntityTag='W/&quot;A weak ETag&quot;'
+   xmpS:ResourceID='unique timestamp2001-08-14T11:02:13Z'
+   xmpS:Size='10000'>
+
+    <xmpS:FileDisposition>
+     <rdf:Alt>
+
+      <rdf:li rdf:parseType='Resource'>
+       <stDsp:filename>aFile</stDsp:filename>
+       <stDsp:OS>Windows</stDsp:OS>
+       <stDsp:directoryPath>c:\mydir\path\</stDsp:directoryPath>
+      </rdf:li>
+
+      <rdf:li rdf:parseType='Resource'>
+       <stDsp:filename>aFile</stDsp:filename>
+       <stDsp:OS>MacOS</stDsp:OS>
+       <stDsp:directoryPath>hd:mydir:path:</stDsp:directoryPath>
+      </rdf:li>
+
+      <rdf:li rdf:parseType='Resource'>
+       <stDsp:filename>aFile</stDsp:filename>
+       <stDsp:OS>Unix</stDsp:OS>
+       <stDsp:directoryPath>/mydir/path/</stDsp:directoryPath>
+      </rdf:li>
+
+      <rdf:li rdf:parseType='Resource'>
+       <stDsp:filename>aPage</stDsp:filename>
+       <stDsp:OS>URL</stDsp:OS>
+       <stDsp:directoryPath>http://www.foo.bar/</stDsp:directoryPath>
+      </rdf:li>
+
+     </rdf:Alt>
+    </xmpS:FileDisposition>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+</top_level_element>

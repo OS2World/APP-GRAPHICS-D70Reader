@@ -1,0 +1,29 @@
+Mixed quotes in attributes                                                                        |
+                                                                                                  |
+begin attribute:                                                                                  |
+<?xpacket begin="' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r'?>                            |
+<?xpacket begin='" id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r'?>                            |
+                                                                                                  |
+id attribute:                                                                                     |
+<?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r'?>                            |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d"?> <?xpacket end='r'?>                            |
+                                                                                                  |
+encoding attribute (encoding value ignored so this is one good packet):                           |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding="UTF-8'?> <?xpacket end='r'?>      |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding='UTF-8"?> <?xpacket end='r'?>---tG      |
+                                                                                                  |
+bytes attribute (this is a bad packet since text between " and " for bytes is invalid):           |
++++hB<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes="400'?>             <?xpacket end='r'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes='400"?>             <?xpacket end='r'?>---tB
+                                                                                                   
+                                                                                                   
+                                                                                                   
+end attribute:                                                                                    |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end="r'?>                       |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r"?>                            |
+                                                                                                  |
+valid trailer to match valid header:                                                              |
+<?xpacket end='r'?>---tG

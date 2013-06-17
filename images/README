@@ -1,0 +1,2 @@
+To prevent error messages in server logs, copy this image file
+into each ./d70reader/gallery(n)/images/websize directory.

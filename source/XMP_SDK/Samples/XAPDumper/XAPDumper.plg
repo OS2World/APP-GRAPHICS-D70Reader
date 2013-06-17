@@ -1,0 +1,38 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: XAPDumper - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP3C.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GR /GX /ZI /Od /I ".\\" /I "..\..\MetadataToolkit\Headers" /I "..\..\MetadataToolkit\Source\DOM" /I "..\..\MetadataToolkit\Source\Parser" /I "..\..\MetadataToolkit\Source\Toolkit" /I "..\..\PacketScanner\Headers" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"P:\work\Adobe XMP\XMPMetadataSDK.win\XMPMetadataSDK.win\XMP_SDK\Samples\XAPDumper\XAPDumper.cpp"
+]
+Creating command line "cl.exe @P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP3C.tmp" 
+Creating temporary file "P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP3D.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/XAPDumper.pdb" /debug /machine:I386 /out:"Debug/XAPDumper.exe" /pdbtype:sept 
+".\Debug\XAPDumper.obj"
+".\Debug\XMLPacketScanner.obj"
+".\Debug\XMPGizmos.obj"
+"\work\Adobe XMP\XMPMetadataSDK.win\XMPMetadataSDK.win\XMP_SDK\MetadataToolkit\Build\Windows\Debug\XMPToolkitMT.lib"
+]
+Creating command line "link.exe @P:\DOCUME~1\JONOMA~1\LOCALS~1\Temp\RSP3D.tmp"
+<h3>Output Window</h3>
+Compiling...
+XAPDumper.cpp
+Linking...
+LINK : warning LNK4049: locally defined symbol ""public: __thiscall MetaXAP::MetaXAP(class XAPClock *)" (??0MetaXAP@@QAE@PAVXAPClock@@@Z)" imported
+LINK : warning LNK4049: locally defined symbol ""public: __thiscall MetaXAP::MetaXAP(void)" (??0MetaXAP@@QAE@XZ)" imported
+LINK : warning LNK4049: locally defined symbol ""public: virtual __thiscall MetaXAP::~MetaXAP(void)" (??1MetaXAP@@UAE@XZ)" imported
+
+
+
+<h3>Results</h3>
+XAPDumper.exe - 0 error(s), 3 warning(s)
+</pre>
+</body>
+</html>

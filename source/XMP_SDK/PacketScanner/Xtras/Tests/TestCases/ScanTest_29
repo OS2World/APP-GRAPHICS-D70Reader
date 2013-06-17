@@ -1,0 +1,12 @@
+Packets with headers and trailers split on two lines:
+
+Non-packet whose header contains carriage return:
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'
+bogusattr="zyz"?><?xpacket end='w'?>
+
+Valid header, invalid trailer containing carriage return:
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'
+bogutattr="xox"?>
+
+Valid trailer to match valid header above:
+<?xpacket end='w'?>---tG

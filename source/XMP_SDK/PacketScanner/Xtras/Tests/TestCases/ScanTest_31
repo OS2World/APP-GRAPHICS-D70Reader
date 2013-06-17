@@ -1,0 +1,18 @@
+Packets with incorrect capitalization (invalid)
+
+xpacket in header:
+<?Xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='w'?>
+
+begin attribute in header:
+<?xpacket Begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='w'?>
+
+id attribute in header:
+<?xpacket begin='' Id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='w'?>
+
+xpacket in trailer:
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?Xpacket end='w'?>
+<?xpacket end='w'?>---tG
+
+end attribute in trailer:
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket End='w'?>
+<?xpacket end='w'?>---tG

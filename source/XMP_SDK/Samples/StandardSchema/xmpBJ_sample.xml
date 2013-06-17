@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMP does not write the above XML declaration.  It is     -->
+<!-- present here only for documentation.                     -->
+
+<!-- Note that this sample file uses the new name of the      -->
+<!-- Toolkit, "XMP", rather than the former name "XAP".       -->
+<!-- The current version of the XMPDumper will continue to    -->
+<!-- write out namespace prefixes beginning with "xap"        -->
+<!-- rather than "xmp".                                       -->
+
+<!-- XMP Basic Job Ticket Schema Example -->
+<!-- These properties describe very simple workflow or job    -->
+<!-- information.                                             -->
+
+<!-- Two XML packets are shown.  The first uses an expanded   -->
+<!-- form similar to XMP's "pretty" format, with additional   -->
+<!-- comments.  The second uses XMP's compact form, but with  -->
+<!-- newlines and indentation added for readability.          -->
+
+<!-- The following element is added only to make this a valid -->
+<!-- XML file. It is not a part of XMP.                       -->
+<top_level_element>
+
+<!-- ======================================================== -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <!-- Most applications will have an empty about attribute. -->
+  <!-- It is recommended, however, that the about attribute  -->
+  <!-- be set to the DocumentID or InstanceID.               -->
+
+  <rdf:Description about=''
+   xmlns:stJob='http://ns.adobe.com/xap/1.0/sType/Job#'
+   xmlns:xmpBJ='http://ns.adobe.com/xap/1.0/bj/'>
+
+    <xmpBJ:JobRef>
+      <rdf:Bag>
+
+        <rdf:li parseType='Resource'>
+          <stJob:name>FooJob</stJob:name>
+          <stJob:id>1000</stJob:id>
+        </rdf:li>
+
+        <rdf:li parseType='Resource'>
+          <stJob:name>BarJob</stJob:name>
+          <stJob:id>1001</stJob:id>
+        </rdf:li>
+
+      </rdf:Bag>
+    </xmpBJ:JobRef>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+<!-- ======================================================== -->
+
+<!-- Here is the second, compact packet with improved readability. -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF 
+ xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+ <rdf:Description about=''
+  xmlns:stJob='http://ns.adobe.com/xap/1.0/sType/Job#'
+  xmlns:xmpBJ='http://ns.adobe.com/xap/1.0/bj/'>
+  
+   <xmpBJ:JobRef> 
+     <rdf:Bag>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stJob:name>FooJob</stJob:name>
+         <stJob:id>1000</stJob:id>
+       </rdf:li>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stJob:name>BarJob</stJob:name>
+         <stJob:id>1001</stJob:id>
+       </rdf:li>
+
+     </rdf:Bag>
+   </xmpBJ:JobRef>
+
+ </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+</top_level_element>

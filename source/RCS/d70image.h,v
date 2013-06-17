@@ -1,0 +1,54 @@
+head	1.1;
+access;
+symbols;
+locks
+	joman:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2005.03.21.23.03.02;	author joman;	state Exp;
+branches;
+next	;
+
+
+desc
+@ First Version.
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/************************************************************************/
+/*      $Id$    */
+/*                                                                      */
+/*      Include file name:   d70image.h                                 */
+/*                                                                      */
+/************************************************************************/
+/*      Revisions:                                                      */
+/*                                                                      */
+/*      Version 0.01 - Mon Mar 21 17:16:56 EST 2005:                    */
+/*              First coding.                                           */
+/************************************************************************/
+
+#ifndef __D70IMAGE_H__
+#define __D70IMAGE_H__
+
+#include "d70types.h"
+#include "d70color.h"
+
+#define MAX_JPEG_FILE_SIZE 10000000
+#define JPEG_QUALITY 255
+
+typedef uint32 pix;
+
+typedef struct {
+  int32 width,height;
+  pix    *buf;
+} image;
+
+#endif /* __D70IMAGE_H__ */
+@

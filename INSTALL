@@ -1,0 +1,39 @@
+==========================================================================
+If you have Slackware 10.0, just copy the ./bin/d70reader program into 
+a directory of your choice (example);
+
+/usr/local/bin
+
+You should be logged on as 'root' to do the file copy, here are the steps:
+
+.  su root
+.  cp ./bin/d70reader /usr/local/bin
+.  chmod 755 /usr/local/bin/d70reader
+.  d70reader image_file_name	#Note:  This step is required to properly create the configuration file
+.  exit
+
+==========================================================================
+To make the application on your system, do this:
+
+cd ./source
+./make_all_rotate
+cd ..
+
+copy the ./bin/d70reader program to a directory of your choice (example):
+
+/usr/local/bin
+
+You should be logged on as 'root' to do the file copy, here are the steps:
+
+.  su root
+.  cp ./bin/d70reader /usr/local/bin
+.  chmod 755 /usr/local/bin/d70reader
+.  d70reader image_file_name	#Note:  This step is required to properly create the configuration file
+.  exit
+
+For developers:
+
+If you do not like the default location of the d70reader.conf file,
+you can over-ride the location by making a change in the d70config.h
+file.  Check out the notes there.
+

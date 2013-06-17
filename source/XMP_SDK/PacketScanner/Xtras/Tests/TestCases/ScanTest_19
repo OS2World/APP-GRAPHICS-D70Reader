@@ -1,0 +1,19 @@
+          1         2         3         4         5         6         7         8         9       9
+ 1 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678
+ 2                                                                                                |
+ 3 packet with bytes attribute < length of header + trailer                                       |
+ 4 +++hB <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes='5'?>      <?xpacket end='r'?>---tB
+ 5                                                                                                |
+ 6 packet with bytes attribute = length of header + trailer (valid packet)                        |
+ 8 +++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes='86'?>      <?xpacket end='r'?>---tG
+ 9                                                                                                |
+10 packet with valid bytes attribute but not enough padding                                       |
+11 +++hB <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d" bytes="400"?>         <?xpacket end='r'?>
+                                                                                                   
+                                                                                                   
+         ---pB                                                                                     
+                                                                                                   
+                                                                                                   
+                                                                                                  |
+18        1         2         3         4         5         6         7         8         9       9
+19 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678

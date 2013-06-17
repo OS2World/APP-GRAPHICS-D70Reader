@@ -1,0 +1,35 @@
+Incorrect attributes in headers and trailers                                                      |
+                                                                                                  |
+At the end of the header or trailer (valid):                                                      |
+                                                                                                  |
+end attribute in header:                                                                          |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' end="r"?> <?xpacket end='r'?>---tG          |
+                                                                                                  |
+bogus attribute in header:                                                                        |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' zaza="hello"?> <?xpacket end='r'?>---tG     |
+                                                                                                  |
+begin attribute in trailer:                                                                       |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r' begin=''?>---tG         |
+                                                                                                  |
+id attribute in trailer: +++hG                                                                    |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='r' id='W5M0MpCehiHzreSzNTczkc9d'?>---tG
+                                                                                                  |
+encoding attribute in trailer:                                                                    |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r' encoding='UTF-8'?>---tG |
+                                                                                                  |
+bytes attribute in trailer:                                                                       |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r' bytes="800"?>---tG      |
+                                                                                                  |
+bogus attribute in trailer:                                                                       |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r' zaza="goodbye"?>---tG   |
+                                                                                                  |
+At the beginning of header and trailer (invalid):                                                 |
+                                                                                                  |
+bogus attribute at beginning of header:                                                           |
+<?xpacket bogus='foo' begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r'?>                |
+                                                                                                  |
+bogus attribute at beginning of trailer:                                                          |
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket bogus='bar' end='r'?>           |
+                                                                                                  |
+valid trailer to match valid header above:                                                        |
+<?xpacket end='r'?>---tG                                                                          |

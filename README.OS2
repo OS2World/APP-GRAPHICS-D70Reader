@@ -1,0 +1,42 @@
+For information about the program and it's usage,
+please view the README file.
+
+On the first run, the program will create a
+"d70reader.conf" file in the directory pointed to
+by you either your OS2_SHELL environment variable
+or by your HOME environment variable, whichever
+comes first. This can be overridden by changing
+the file_sys_dir_ptr value in d70config.h and then
+recompiling the program.
+
+Build_os2.cmd can be used to rebuild D70Reader.
+A properly installed GCC is requied.
+
+As of version 0.14, it utilizes the JPEG library
+from the Independent JPEG group.  The purpose is
+to support automatic JPEG rotation when extracting
+a JPEG file that requires rotation.  I've found
+that the automatic rotation can be very slow.  
+Because of this, there are two versions of
+the executable.  d70reader_no_rotate.exe will not 
+attempt the automatic rotation.  d70reader.exe will
+attempt the automatic rotation.  If anyone has
+mucked with the Independent JPEG Group's libraries
+and has suggestions to improve performance, I'm
+all ears.  Btw: I have tried several optimization
+options, including processor specific options.
+
+Thanks to Jon Oman for going out of his way to
+ensure this application functions properly under
+eCS and OS/2.
+
+ - Bill Nau (nau@tiny.net)
+
+The OS/2 version of this software does not support
+the Adobe XMP SDK logic.  If someone wants to
+find out how to compile it under OS/2, let me
+know.  I will add the compile step to the next
+version.
+
+ - Jonathan Oman (joman@gogebic-pc.com)
+ 

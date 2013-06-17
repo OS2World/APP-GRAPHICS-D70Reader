@@ -1,0 +1,67 @@
+==================================================================
+Version 0.17:
+==================================================================
+Two missing EXIF tags were added to this version.  You will have
+to either delete and then re-create the d70reader.conf file, in
+order for these tags to be displayed, or you can edit the file,
+and add the following two entries:
+
+WhiteBalance=yes
+Sharpening=yes
+
+If you do edit the file, be sure to use a text editor, like 'vi'.
+==================================================================
+Version 0.18:
+==================================================================
+New option -js
+Adobe XMP SDK being used
+Modified option -c to use place holders for missing tags
+==================================================================
+Version 0.19:
+==================================================================
+New option -web
+Changed some output formatting.
+
+Two missing EXIF tags were added to this version.  You will have
+to either delete and then re-create the d70reader.conf file, in
+order for these tags to be displayed, or you can edit the file,
+and add the following two entries:
+
+ImageWidth=yes
+ImageLength=yes
+
+If you do edit the file, be sure to use a text editor, like 
+'notepad', not an application like Microsoft Word.
+==================================================================
+Version 0.20:
+==================================================================
+Corrected a problem with the -web option.  The JPG images taken
+directly from the camera were not being rotated properly.
+
+Added the 'images' directory to the distribution.  This contains
+the 'blank.jpg' image file.  It is needed for the -web option.
+Check out the README file in that directory.
+==================================================================
+Version 0.20:
+==================================================================
+Added the -rm option to allow complete removal of the
+EXIF data from a JPG image.  Fixed a problem with the
+-web option, where vertical images were not always
+displayed properly.  Handle a situation where the image
+file does not contain the orientation tag 0x112.
+Fixed a problem where the -j option would fail with
+certain Nikon Capture created files.  When using the
+-j option, the EXIF data is now correctly formatted
+into the proper buckets, instead of having it all at
+the lowest level.  This means that other applications
+will now correctly read it.  The original -j logic
+from version 0.20 is kept as -jold.  There are still
+some image processing software created images, that
+can not be handled correctly with the newer -j option.
+The -jold option does work with some of these images.
+
+The files created with the -rm option, have the string
+"NOEXIF_" prepended to their name.  The original file
+is not touched.
+
+

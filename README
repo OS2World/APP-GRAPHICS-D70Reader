@@ -1,0 +1,406 @@
+This is a Freeware program, use at your own risk.
+
+This software makes use of "The Independent JPEG Group's JPEG Software"
+Specifically, it uses their image rotation and resizing logic.
+Please read their copyright information, found in the jpeglib/README file.
+
+This software makes use of "The Adobe XMP SDK Software"
+Please read their copyright information, found in the
+XMP_SDK/Documentation/LICENSE.TXT file.
+
+This program only works with Nikon D70/D100/D2H/D2X image files.
+(It will work with NEF/RAW and JPG files.)
+
+Check here for latest version:
+http://www.gogebic-pc.com/d70/index.html
+
+Format:
+        d70reader [-h|-v|-w|-x|-j|-rm|-c|-js|-web] image_file_name
+
+        d70reader [-h|-v|-w|-x|-j|-rm|-c|-js|-web] *.NEF *.JPG
+
+        -h    = this screen
+        -v    = verbose (raw data)
+        -w    = generate HTML table
+        -x    = generate XML tree
+        -j    = extract JPG thumbnail image from NEF
+        -jold = extract JPG thumbnail image from NEF (old)
+        -rm   = remove all EXIF data from JPG file
+        -c    = generate Comma Separated Values (CSV) data
+        -js   = generate JavaScript Array data
+        -web  = generate Photo Website
+
+joman@gogebic-pc.com
+
+==========================================================================
+Recently, I have found out that this program works with D100 image files,
+as well as the D70.  I have tested un-modified image files directly from
+the camera.  I don't know if this program will work with D100 image files
+that have been modified by another application, such as Nikon Capture, or
+Adobe Photoshop CS.
+
+I have also tested this program with D2H NEF image files taken directly
+from the camera.  A JPG image file that was created on the D2H, and
+modified by an older version of Nikon Capture did not work.  I have not
+had time to determine the reason.  This program may work with D2H JPG 
+files taken directly from the camera, but I do not have access to a
+D2H, so I can not test this.  The program worked well with the D2H NEF
+files.
+
+The program now works with the D2X camera.  It has been tested with
+images taken directly from the camera.  I don't know if the program will
+work with images modified by any other software.
+
+==========================================================================
+This program has been tested on only the following Operating Systems (OS):
+
+Windows 2000 Prof.
+Windows XP Prof.
+Slackware 10.0 Linux
+IBM OS/2 Warp 4.0
+
+It may not work on any other OS.
+
+I have been told that my source compiles without any problems
+on a Mac OS-X computer.  But, I do not have access to any Mac
+systems, so I can not verify this, or provide an executable
+for this OS.
+
+I have also been told that this program can be compiled and
+run under eCS (OS/2).  A minor modification had to be made to support
+this, and this change has been made in the current source.
+
+I have also been told that this program can be compiled and
+run under FreeBSD.  A minor modification had to be made to support
+this, and this change has been made in the current source.
+
+==========================================================================
+The program can be customized to output just the EXIF tags you want to
+see.  This is controlled by a text based configuration file.  The file 
+will be created the first time you run the program, with an image file.
+
+The configuration file is called 'd70reader.conf', and can be found
+in the directory pointed to by the 'HOME' environment variable.  You
+can find it by typing 'set' within a command prompt window, and looking
+for the 'HOME' variable.  On one of my computers, I would find it
+here:
+
+/home/joman/d70reader.conf
+
+Note:  This is a change for version 0.15.  The configuration file used to
+be put, in the '/etc' directory.  But, that does not work, if you do not
+have root access.  The change was made, to support multiple logons for 
+the same computer.  Each person can customize their individual configuration 
+file.
+
+Here is what the d70reader.conf file looks like:
+
+ISOUsed=yes
+Quality=yes
+FocusMode=yes
+FlashSetting=yes
+FlashMode=yes
+ISOSet=yes
+ToneCompensation=yes
+LensType=yes
+Lens=yes
+LensInfo=yes
+ColorMode=yes
+LightSource=yes
+NoiseReduction=yes
+ShutterCount=yes
+ImageOptimization=yes
+Saturation=yes
+VariProgram=yes
+Make=yes
+Model=yes
+Orientation=yes
+Software=yes
+ExposureTime=yes
+FNumber=yes
+ExposureProgram=yes
+ISOSpeedRatings=yes
+DateTimeDigitized=yes
+ExposureBiasValue=yes
+MeteringMode=yes
+Flash=yes
+FocalLength=yes
+UserComment=yes
+ExifImageWidth=yes
+ExifImageLength=yes
+FocalLengthIn35mmFilm=yes
+
+You can use a text based editor, like 'vi' to modify
+the configuration file.  To disable the display of a tag,
+just set the tag name equal to 'no'.
+
+==========================================================================
+This program allows wildcard input characters:
+
+d70reader *.NEF *.JPG
+
+If there are other files in your directory besides image files,
+don't do this:
+
+d70reader *.*
+
+The program will stop on the first non-image file it encounters.
+
+Note:  As of version 0.18, you can now use the *.* construct.
+
+==========================================================================
+I have added the ability to extract the JPG thumbnail image file
+that is embedded in the NEF file image.  You can do this with the
+-j option.  This option will output the JPG file in the current
+directory.  I chose to name the JPG file by appending '.JPG' to
+the existing NEF file name.  Here is an example:
+
+DSC_0007.NEF becomes DSC_0007.NEF.JPG
+
+You will end up with two files in the current directory:
+
+DSC_0007.NEF
+DSC_0007.NEF.JPG
+
+The NEF file will not be modified in any way.  The JPG file will
+have the EXIF data embedded in it.  If you run the program 
+more than once in the current directory, the JPG file that was
+previously created will just be over-written.
+
+The extracted thumbnail image will be automatically rotated, so
+that it can be properly displayed in an image reader.
+
+Note:  For Version 0.21, the EXIF data is placed in the correct
+buckets.  It is no longer all placed in the lowest level.  This
+means that other applications can correctly display the EXIF
+data from the extracted images.  Since the modified -j option
+does not work with all images created by other image processing
+software, the older logic has been kept as option -jold.  This
+still works with some image files that the -j option can not
+handle.
+
+==========================================================================
+The program now has an option that will generate a full web site from a
+directory of image files.  It works on both NEF/RAW files, and JPG files.
+It is best to generate the site from images taken directly from the
+camera.  This will insure that there is a complete set of EXIF data
+for the web site display.  If you use images that have been processed by
+an application like Photoshop, some of the EXIF data gets dropped on the
+floor!
+
+If you limit the EXIF data that is displayed, by modifying the 
+d70reader.conf file, be sure NOT to remove the following tags:
+
+Orientation
+ExifImageWidth
+ExifImageLength
+
+If you disable these tags, the images will not appear on the screen, or
+will be incorrectly displayed.
+
+The option to use, to generate the web site, is '-web'.
+
+A new directory will be created within the directory that you run this
+option in.  It is called 'd70reader'.  You will find an XHTML index.html
+document in this directory.  You can open this file in your browser, to
+test out the generated site.
+
+The generated files have been tested with the following browsers:
+
+Internet Explorer 6.0
+Mozilla Firefox 1.0
+Mozilla 1.7
+Netscape 7.1
+
+The first two browsers are Windows versions, and the last two are
+Linux versions.
+
+==========================================================================
+I have added the -rm option.  This option will allow you to completely
+remove the EXIF data from a JPG image.
+
+==========================================================================
+Here is sample output:
+
+File #1:
+
+D70ReaderProgramVersion    : 0.11
+Filename                   : DSC_0549.JPG
+Make                       : NIKON CORPORATION
+Model                      : NIKON D70
+Orientation                : Horizontal (normal)
+Software                   : Ver.1.02
+ExposureTime               : 1/400 seconds
+FNumber                    : 11.000000
+ExposureProgram            : Auto
+DateTimeDigitized          : 2004:09:14 16:51:55
+ExposureBiasValue          : 0.000000
+MeteringMode               : Multi-segment
+Flash                      : Off
+FocalLength                : 44mm
+UserComment                :
+ExifImageWidth             : 3008
+ExifImageLength            : 2000
+FocalLengthIn35mmFilm      : 66mm
+ISOUsed                    : 200
+Quality                    : NORMAL
+FocusMode                  : AF-S
+FlashSetting               :
+FlashMode                  :
+ISO-2                      : 200
+ToneCompensation           : AUTO
+LensType                   : G
+Lens                       : 18-70mm f/3.5-4.5
+LensInfo                   : 40 01 0c 00
+ColorMode                  : MODE3a
+LightSource                : NATURAL
+NoiseReduction             : OFF
+ShutterCount               : 982
+ImageOptimization          :
+Saturation                 : NORMAL
+VariProgram                : LAND SCAPE
+
+File #2:
+
+D70ReaderProgramVersion    : 0.11
+Filename                   : DSC_0580.NEF
+Make                       : NIKON CORPORATION
+Model                      : NIKON D70
+Orientation                : Horizontal (normal)
+Software                   : Ver.1.02
+ExposureTime               : 1/320 seconds
+FNumber                    : 14.000000
+ExposureProgram            : Aperture-priority AE
+DateTimeDigitized          : 2004:09:15 16:50:42
+ExposureBiasValue          : 0.000000
+MeteringMode               : Multi-segment
+Flash                      : No Flash
+FocalLength                : 18mm
+UserComment                :
+FocalLengthIn35mmFilm      : 27mm
+ISOUsed                    : 200
+Quality                    : RAW
+FocusMode                  : AF-S
+FlashSetting               : NORMAL
+FlashMode                  :
+ISO-2                      : 200
+ToneCompensation           : AUTO
+LensType                   : G
+Lens                       : 18-70mm f/3.5-4.5
+LensInfo                   : 40 01 0c 00
+ColorMode                  : MODE1a
+LightSource                : NATURAL
+NoiseReduction             : OFF
+ShutterCount               : 1013
+ImageOptimization          : NORMAL
+Saturation                 : NORMAL
+VariProgram                :
+
+File #3:
+
+D70ReaderProgramVersion    : 0.12
+Filename                   : DSC_0007.NEF.JPG
+Make                       : NIKON CORPORATION
+Model                      : NIKON D70
+Software                   : D70Reader - v0.12
+Orientation                : Horizontal (normal)
+ExposureTime               : 1/60 seconds
+FNumber                    : 32.000000
+ExposureProgram            : Aperture-priority AE
+DateTimeDigitized          : 2004:08:21 17:09:37
+ExposureBiasValue          : 4.000000
+MeteringMode               : Multi-segment
+Flash                      : Auto, Fired, Return detected
+FocalLength                : 60mm
+ISOUsed                    : 200
+Quality                    : BASIC
+FocusMode                  : AF-S
+FlashSetting               : NORMAL
+FlashMode                  : Built-in,TTL
+ISO-2                      : 200
+ToneCompensation           : AUTO
+LensType                   : D
+Lens                       : 60mm f/2.8
+LensInfo                   : 54 01 0c 00
+ColorMode                  : MODE1a
+LightSource                : SPEEDLIGHT
+NoiseReduction             : OFF
+ShutterCount               : 268
+ImageOptimization          : NORMAL
+Saturation                 : NORMAL
+VariProgram                :
+UserComment                :
+FocalLengthIn35mmFilm      : 90mm
+
+==========================================================================
+Package Contents:
+
+./bin/d70reader				-	Slackware Linux 10.0 program file
+./bin/d70reader_no_rotate		-	Slackware Linux 10.0 program file
+./bin/d70reader.exe			-	IBM OS/2 program file
+./bin/d70reader_no_rotate.exe		-	IBM OS/2 program file
+
+./source/d70color.h			-	Header file
+./source/d70image.h			-	Header file
+./source/d70inc1.h			-	Header file
+./source/d70inc2.h			-	Header file
+./source/d70types.h			-	Header file
+./source/d70reader.h			-	Header file
+./source/d70config.h			-	Header file
+./source/d70reader.c			-	The main ANSI C source
+./source/d70buildweb.c			-	ANSI C source
+./source/d70resize.c			-	ANSI C source
+./source/d70utils.c			-	ANSI C source
+./source/d70jpegtran.c			-	Modified IJG source file
+./source/XAPDumper.cpp			-	Modified Adobe XMP SDK file
+./source/XMPGizmos.cpp			-	Modified Adobe XMP SDK file
+./source/XMPGizmos.h			-	Modified Adobe XMP SDK file
+./source/make_no_rotate			-	Build script that ignores image rotation logic
+./source/make_rotate			-	Build script that uses image rotation logic
+./source/make_mpatrol			-	Build script that uses the 'mpatrol' debug libraries
+./source/make_all_rotate			-	Build script that uses image rotation logic
+./source/make_all_no_rotate		-	Build script that ignores image rotation logic
+./source/make_clean			-	This script will remove old object and library files
+./source/build_os2.cmd			-	Build script for the IBM OS/2 versions
+./source/tar_it				-	Script to 'tar' up the files
+
+./source/jpeglib			-	The full IJG source directory
+./source/jpeglib/cdjpeg.c		-	IJG source file
+./source/jpeglib/rdswitch.c		-	IJG source file
+./source/jpeglib/transupp.c		-	IJG source file
+./source/jpeglib/cderror.h		-	IJG source file
+./source/jpeglib/cdjpeg.h		-	IJG source file
+./source/jpeglib/jconfig.h		-	IJG source file
+./source/jpeglib/jinclude.h		-	IJG source file
+./source/jpeglib/jpegint.h		-	IJG source file
+./source/jpeglib/jpeglib.h		-	IJG source file
+./source/jpeglib/jversion.h		-	IJG source file
+./source/jpeglib/transupp.h		-	IJG source file
+
+./source/XMP_SDK/*			-	Adobe XMP SDK (library is used)
+
+./README				-	This document
+./README.OS2				-	IBM OS/2 README
+./RELEASE.NOTES				-	Release dependent instructions
+./INSTALL				-	Instructions on installing the program
+./INSTALL.OS2				-	Instructions on installing the program
+./docs/RunningTheD70ReaderProgramXP.doc	-	Microsoft Word 2000 document
+./docs/d70exif_into_access.doc		-	Using d70reader with Microsoft Access - David Lal [lald@btinternet.com]
+./docs/d70reader_facilitate.doc		-	Good setup document - David Lal [lald@btinternet.com]
+./docs/d70reader_exif_variations.doc	-	Explains software differences - David Lal [lald@btinternet.com]
+./images/README				-	Images README
+./images/blank.jpg			-	Image file required by -web option
+
+Note#1:  Depending on which GZIP file you download, you may have the program executable, but not the source, or the
+	 other way around.
+Note#2:  The only IJG files listed, are the ones used by this application.
+
+==========================================================================
+Hack the source as you may.
+
+Enjoy!
+
+Jonathan D. Oman
+joman@gogebic-pc.com
+
+

@@ -1,0 +1,2103 @@
+head	1.3;
+access;
+symbols;
+locks
+	joman:1.3; strict;
+comment	@ * @;
+
+
+1.3
+date	2005.01.21.04.36.59;	author joman;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2005.01.19.21.29.48;	author joman;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2005.01.16.03.33.33;	author joman;	state Exp;
+branches;
+next	;
+
+
+desc
+@Source to develop inserting EXIF data into extracted JPG
+image file.  Data comes from the original NEF file.
+@
+
+
+1.3
+log
+@First working version of embedding EXIF into extracted JPG.
+@
+text
+@/************************************************************************/
+/*	$Id: jpgextract.c,v 1.1 2005/01/16 03:33:33 joman Exp joman $	*/
+/*									*/
+/*      Program name:   jpgextract.c                                    */
+/*                                                                      */
+/*      This program will extract the JPG thumbnail image from a NEF.	*/
+/*      This may be compiled under Linux GCC like this:  cc jpgextract.c*/
+/*      This can also be compiled within a Visual C++ project.          */
+/************************************************************************/
+/*	Revisions:							*/
+/*									*/
+/*	Version 0.01 - Sun Dec 12 12:11:21 EST 2004:			*/
+/*		First coding.						*/
+/*									*/
+/************************************************************************/
+#ifdef __OS2__
+#define _TRUNCATE_DECLARED
+#endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+
+#ifndef __APPLE__
+#ifndef __FreeBSD__
+#include <malloc.h>
+#endif
+#endif
+
+#define D70_VERSION "0.01"
+#define D70_DATE "Thu Jan 13 17:04:52 UTC 2005"
+
+static char rcsid[] = "$Id: jpgextract.c,v 1.1 2005/01/16 03:33:33 joman Exp joman $";
+
+int iTrace = 0;		// set this with -t option 
+int iVerbos = 0;	// set this with -v option
+int iHtml = 0;		// set this with -w option
+int iXml = 0;		// set this with -x option
+int iThumbnail = 0;	// set this with -j option
+int iCsv = 0;		// set this with -c option
+
+int MotorolaOrder = 1;	//All NEF files that I have seen are MotorolaOrder files
+			//Correction, Nikon Capture saves in Intel order!
+int old_byte_order;
+int iJPG_Type;
+int iFile_Type;
+int iCsv_First_Time = 1;
+int iTagCount = 0;
+
+struct html_header
+{
+	char * Desc;
+	char * Value;
+	struct html_header *next;
+};
+
+struct data_header
+{
+        unsigned short tag;                     
+        unsigned short field_type;              
+        unsigned long count;                    
+        unsigned long value_offset;             
+	unsigned char *data_at_offset;
+	int record_type;
+	int byte_count;
+	struct data_header *next;
+};
+
+struct image_file_header
+{
+        char byte_order[2];                     ///*byte order indicator 'II' or 'MM' 
+        unsigned short image_file_type;         ///*image file type                   
+        unsigned long offset_to_first_ifd;      ///*offset to first IFD               
+};
+
+struct jpg_image_file_header
+{
+	unsigned char start;
+	unsigned char soi;
+	unsigned char pad;
+	unsigned char exif_ind;
+	unsigned short length;
+	char exif_header_text[6];
+        char byte_order[2];                     ///byte order indicator 'II' or 'MM' 
+        unsigned short image_file_type;         ///image file type                   
+        unsigned long offset_to_first_ifd;      ///offset to first IFD               
+};
+
+struct image_file_directory_entry
+{
+        unsigned short tag;         		/*tag                 */
+        unsigned short field_type;         	/*field type          */
+        unsigned long count;      		/*count               */
+        unsigned long value_offset;     	/*value offset        */
+};
+
+unsigned long lThumbnailOffset;
+unsigned long lThumbnailLength;
+
+void ProcessFile(int argc, char *filename);
+void output_thumbnail(char *filename, FILE *rfd);
+void dump_image_file_directory(FILE *rfd, unsigned long offset_ifd, unsigned long offset_base, char *type_ptr);
+void free_data_header_list(struct data_header *header_ptr);
+char *get_extension(char *string);
+char *upper_case(char *local_ptr);
+int jpg_type_offset();
+struct data_header * get_new_data_header_ptr();
+void my_exit(char *text_ptr);
+unsigned long get_jpg_type_and_offset(FILE *rfd, unsigned long offset);
+unsigned long inspect_image_file_header(FILE *rfd, int iType);
+void trace(char *str);
+void  instruct(void);
+unsigned Get32u(void * Long);
+int Get16u(void * Short);
+
+#define NUM_FORMATS 12
+
+#define FMT_BYTE       1
+#define FMT_STRING     2
+#define FMT_USHORT     3
+#define FMT_ULONG      4
+#define FMT_URATIONAL  5
+#define FMT_SBYTE      6
+#define FMT_UNDEFINED  7
+#define FMT_SSHORT     8
+#define FMT_SLONG      9
+#define FMT_SRATIONAL 10
+#define FMT_SINGLE    11
+#define FMT_DOUBLE    12
+
+#define TAG_EXIF_OFFSET		0x8769
+#define TAG_MAKER_NOTE		0x927C
+#define TAG_SUBIFD_S		0x014A
+#define TAG_ORIENTATION		0x0112
+#define TAG_THUMBNAIL_OFFSET	0x0201
+#define TAG_THUMBNAIL_LENGTH	0x0202
+
+#define MAKER_NOTE_PRE_HEADER_LENGTH	10
+#define ASCII_LABEL_SKIP_LENGTH	8
+
+struct data_header *header_ptr;
+struct data_header *start_header_ptr;
+struct data_header *current_header_ptr;
+struct html_header *html_header_ptr = NULL;
+struct html_header *html_header_start_ptr = NULL;
+
+/*
+struct data_header_ptr main_header;
+struct data_header_ptr *main_header_ptr = NULL;
+struct data_header_ptr *main_header_start_ptr = NULL;
+*/
+
+typedef unsigned char uchar;
+char trace_buffer[256];
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+int main(argc,argv) 
+int argc;
+char *argv[];
+{
+	int ctr1 = 0;
+	int ctr2 = 0;
+	int argn;
+	char * arg;
+        struct stat buf;
+        char *filename;
+
+	if(argc < 2)
+	{
+		instruct();
+		exit(1);
+	}
+
+	for(argn = 1; argn < argc; argn++)
+	{
+		arg = argv[argn];
+
+		if(arg[0] != '-') 
+			break; // Filenames have started.
+
+		if(!strcmp(arg,"-v"))
+		{
+			iVerbos = 1;
+		}
+		else if(!strcmp(arg,"-w"))
+		{
+			iHtml = 1;
+		}
+		else if(!strcmp(arg,"-c"))
+		{
+			iCsv = 1;
+		}
+		else if(!strcmp(arg,"-x"))
+		{
+			iXml = 1;
+		}
+		else if(!strcmp(arg,"-j"))
+		{
+			iThumbnail = 1;
+		}
+		else if(!strcmp(arg,"-t"))
+		{
+			iTrace = 1;
+		}
+		else if(!strcmp(arg,"-h"))
+		{
+			instruct();
+			exit(1);
+		}
+
+		ctr1++;
+	}
+
+	if(argc == argn)
+	{
+		instruct();
+		exit(1);
+	}
+
+	for(ctr2 = 0; ctr2 < ctr1; ctr2++)
+		argv++;
+
+        while(filename = *++argv)
+        {
+                if(stat(filename, &buf) == (-1))
+                        perror(filename);
+                else
+			ProcessFile(argc, filename);
+        }
+
+        return 0;
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void ProcessFile(int argc, char *filename)
+{
+        FILE *rfd;                      /*used as the file pointer      */
+        char buffer[256];
+	char *temp_ptr = NULL;
+	unsigned long offset_ifd;
+	int ctr1 = 0;
+	struct data_header_ptr *temp_header_start_ptr = NULL;
+	struct data_header_ptr *free_header_start_ptr = NULL;
+	struct html_header *free_html_header_start_ptr = NULL;
+
+	trace("+ProcessFile\n");
+
+	if((rfd = fopen(filename, "rb")) == NULL)
+	{
+		printf("\nFile not found: %s\n\n", filename);
+		exit(1);
+	}
+
+	temp_ptr = get_extension(filename);
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "File Extension: %s\n", temp_ptr);
+	trace(trace_buffer);
+
+	if(!strncmp(upper_case(temp_ptr), "JPG", 3))
+	{
+		iFile_Type = 0;
+	}
+	else
+	{
+		iJPG_Type = 99;
+		iFile_Type = 1;
+	}
+
+	memset(buffer, (int) NULL, 256);
+	sprintf(buffer, "IFD%d", ctr1++);
+
+	offset_ifd = inspect_image_file_header(rfd, iFile_Type);
+	header_ptr = get_new_data_header_ptr();
+	start_header_ptr = header_ptr;
+	dump_image_file_directory(rfd, offset_ifd, jpg_type_offset(), buffer);
+
+	if(iThumbnail)
+	{
+		if(iFile_Type)
+			output_thumbnail(filename, rfd);
+	}
+
+	fclose(rfd);                    /*close file                    */
+
+	free_data_header_list(start_header_ptr);
+
+	trace("-ProcessFile\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+unsigned short count_tags(struct data_header *local_ptr)
+{
+	unsigned short tag_count = 0;
+
+	while(local_ptr->next != NULL)
+	{
+		switch(local_ptr->tag)
+		{
+			case 0x0112:
+				if(local_ptr->record_type == 1)
+					break;
+			case 0x829a:
+			case 0x9209:
+			case 0x8822:
+			case 0x9207:
+			case 0x0084:
+			case 0x920a:
+			case 0xa405:
+			case 0x0083:
+			case 0x8827:
+			case 0x010f:
+			case 0x0110:
+			case 0x0131:
+			case 0x9004:
+			case 0x829d:
+			case 0x0002:
+			case 0x0013:
+			case 0x0004:
+			case 0x00a7:
+			case 0x0007:
+			case 0x0008:
+			case 0x0009:
+			case 0x0081:
+			case 0x008b:
+			case 0x008d:
+			case 0x0090:
+			case 0x0095:
+			case 0x00a9:
+			case 0x00aa:
+			case 0x00ab:
+			case 0xa002:
+			case 0xa003:
+			case 0x9204:
+			case 0x9286:
+				tag_count++;
+				break;
+			default:
+				break;
+		}
+
+		local_ptr = local_ptr->next;
+	}
+
+	return(tag_count);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void output_thumbnail(char *filename, FILE *rfd)
+{
+	FILE *ofd;
+	char buffer[256];
+	unsigned long size;
+	unsigned char *byte_ptr;
+	unsigned char *file_ptr;
+
+	struct image_file_directory_entry ifde;
+
+	struct exif_header
+	{
+		unsigned char ff;
+		unsigned char soi;
+		unsigned char pad;
+		unsigned char marker;
+		unsigned short length;
+		unsigned char exif[6];
+		unsigned char byte_order[2];
+		unsigned short flag;
+		unsigned int offset;
+		unsigned short dir_count;
+	};
+
+	struct type5
+	{
+		unsigned long numerator;
+		unsigned long denominator;
+	};
+
+	struct type5 *type5_ptr;
+
+	struct lens
+	{
+		struct type5 field_1;
+		struct type5 field_2;
+		struct type5 field_3;
+		struct type5 field_4;
+	};
+
+	struct lens *lens_ptr;
+
+	struct exif_header *exif_header_ptr;
+	struct data_header *temp_start_ptr = NULL;
+	unsigned char *dir_buffer_ptr = NULL;
+	unsigned char *temp_dir_buffer_ptr = NULL;
+	unsigned char *data_buffer_ptr = NULL;
+	unsigned char *temp_data_buffer_ptr = NULL;
+
+	unsigned short dir_count = 0;
+	int iStructSize = 0;
+	unsigned int data_offset = 0;
+	unsigned short short_length = 0;
+	unsigned int ubyte1;
+	unsigned int ubyte2;
+	unsigned int ubyte3;
+	unsigned int ubyte4;
+	unsigned int ubyte5;
+	unsigned int ubyte6;
+	unsigned long ulong;
+
+	trace("+output_thumbnail\n");
+
+	exif_header_ptr = (struct exif_header *) malloc(sizeof(struct exif_header));
+	memset(exif_header_ptr, (int) 0xFF, sizeof(struct exif_header));
+	iStructSize = sizeof(struct exif_header);
+
+	exif_header_ptr->ff = 0xFF;
+	exif_header_ptr->soi = 0xD8;
+	exif_header_ptr->pad = 0xFF;
+	exif_header_ptr->marker = 0xE1;
+	exif_header_ptr->length = 0x00;		//set this later
+	memcpy(exif_header_ptr->exif,"Exif\0\0", 6);
+	memcpy(exif_header_ptr->byte_order,"II", 2);
+	exif_header_ptr->flag = 0x002A;
+	exif_header_ptr->offset = 0x0008;
+
+	temp_start_ptr = start_header_ptr;
+
+	dir_count += count_tags(temp_start_ptr);
+
+	printf("dir_count: %d\n", dir_count);
+	printf("iTagCount: %d\n", iTagCount);
+
+	exif_header_ptr->dir_count = dir_count;
+
+	dir_buffer_ptr = (unsigned char *) malloc((12 * dir_count) + 4);
+	temp_dir_buffer_ptr = dir_buffer_ptr;
+	data_buffer_ptr = (unsigned char *) malloc(1024);
+
+	data_offset = sizeof(struct exif_header) + ((12 * dir_count) + 4) - 14;
+
+	memset(dir_buffer_ptr, (int) NULL, ((12 * dir_count) + 4));
+	memset(data_buffer_ptr, (int) NULL, 1024);
+
+	short_length = ((12 * dir_count) + 4) + sizeof(struct exif_header) + 1024 - 6;
+	exif_header_ptr->length = Get16u(&short_length);
+
+	temp_data_buffer_ptr = data_buffer_ptr;
+
+	temp_start_ptr = start_header_ptr;
+
+	while(temp_start_ptr->next != NULL)
+	{
+		switch(temp_start_ptr->tag)
+		{
+			case 0x0112:
+				if(temp_start_ptr->record_type == 1)
+					break;
+			case 0x829a:
+			case 0x9209:
+			case 0x8822:
+			case 0x9207:
+			case 0x0084:
+			case 0x920a:
+			case 0xa405:
+			case 0x0083:
+			case 0x8827:
+			case 0x010f:
+			case 0x0110:
+			case 0x0131:
+			case 0x9004:
+			case 0x829d:
+			case 0x0002:
+			case 0x0013:
+			case 0x0004:
+			case 0x00a7:
+			case 0x0007:
+			case 0x0008:
+			case 0x0009:
+			case 0x0081:
+			case 0x008b:
+			case 0x008d:
+			case 0x0090:
+			case 0x0095:
+			case 0x00a9:
+			case 0x00aa:
+			case 0x00ab:
+			case 0xa002:
+			case 0xa003:
+			case 0x9204:
+			case 0x9286:
+				printf("tag: %x\n", temp_start_ptr->tag);
+				printf("Field_type: %d\n", temp_start_ptr->field_type);
+				printf("count: %d\n", temp_start_ptr->count);
+				printf("value_offset: %x\n", temp_start_ptr->value_offset);
+				printf("record_type: %d\n", temp_start_ptr->record_type);
+				ifde.tag = temp_start_ptr->tag;
+				ifde.field_type = temp_start_ptr->field_type;
+				ifde.count = temp_start_ptr->count;
+
+				if(temp_start_ptr->byte_count > 4)
+				{
+					if(temp_start_ptr->tag == 0x829a ||
+						temp_start_ptr->tag == 0x829d ||
+						temp_start_ptr->tag == 0x9204 ||
+						temp_start_ptr->tag == 0x920a)
+					{
+						type5_ptr = (struct type5 *) malloc(sizeof(struct type5));
+
+						type5_ptr->numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset);
+						type5_ptr->denominator = (unsigned long) Get32u((temp_start_ptr->data_at_offset + 4));
+
+						memcpy(temp_data_buffer_ptr, type5_ptr, temp_start_ptr->byte_count);
+						free(type5_ptr);
+					}
+					else if(temp_start_ptr->tag == 0x0084)
+					{
+						lens_ptr = (struct lens *) malloc(sizeof(struct lens));
+
+						lens_ptr->field_1.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset);
+						lens_ptr->field_1.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 4);
+						lens_ptr->field_2.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 8);
+						lens_ptr->field_2.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 12);
+						lens_ptr->field_3.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 16);
+						lens_ptr->field_3.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 20);
+						lens_ptr->field_4.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 24);
+						lens_ptr->field_4.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 28);
+
+						memcpy(temp_data_buffer_ptr, lens_ptr, temp_start_ptr->byte_count);
+						free(lens_ptr);
+					}
+					else
+					{
+						if(temp_start_ptr->tag == 0x0004)
+						{
+							memcpy(temp_data_buffer_ptr, "BASIC\0", strlen("BASIC\0"));
+							temp_start_ptr->byte_count = strlen("BASIC\0") + 1;
+							ifde.count = strlen("BASIC\0") + 1;
+						}
+						else if(temp_start_ptr->tag == 0x0131)
+						{
+							memset(buffer, (int) NULL, 256);
+							sprintf(buffer, "D70Reader - v%s\0", D70_VERSION);
+							memcpy(temp_data_buffer_ptr, buffer, strlen(buffer));
+							temp_start_ptr->byte_count = strlen(buffer) + 1;
+							ifde.count = strlen(buffer) + 1;
+						}
+						else
+							memcpy(temp_data_buffer_ptr, temp_start_ptr->data_at_offset, temp_start_ptr->byte_count);
+					}
+
+					temp_data_buffer_ptr += temp_start_ptr->byte_count;
+					ifde.value_offset = data_offset;
+					data_offset += temp_start_ptr->byte_count;
+				}
+				else
+				{
+					if(temp_start_ptr->tag == 0xa405 || 
+						temp_start_ptr->tag == 0x0112 ||
+						temp_start_ptr->tag == 0x8822 || 
+						temp_start_ptr->tag == 0x9209 || 
+						temp_start_ptr->tag == 0x9207)
+					{
+						ulong = temp_start_ptr->value_offset;
+
+						ubyte1 = (ulong & 0xff000000) >> 24;
+						ubyte2 = (ulong & 0x00ff0000) >> 16;
+						ubyte3 = (ulong & 0x0000ff00) >> 8;
+						ubyte4 = (ulong & 0x000000ff) >> 0;
+						ubyte5 = (ulong & 0xffff0000) >> 16;
+						ubyte6 = (ulong & 0x0000ffff) >> 0;
+
+						ifde.value_offset = ubyte5;
+					}
+					else if(temp_start_ptr->tag == 0x0083)
+					{
+						ulong = temp_start_ptr->value_offset;
+
+						ubyte1 = (ulong & 0xff000000) >> 24;
+						ubyte2 = (ulong & 0x00ff0000) >> 16;
+						ubyte3 = (ulong & 0x0000ff00) >> 8;
+						ubyte4 = (ulong & 0x000000ff) >> 0;
+						ubyte5 = (ulong & 0xffff0000) >> 16;
+						ubyte6 = (ulong & 0x0000ffff) >> 0;
+
+						ifde.value_offset = ubyte1;
+					}
+					else
+						ifde.value_offset = temp_start_ptr->value_offset;
+				}
+
+				memcpy(temp_dir_buffer_ptr, &ifde, 12);
+				temp_dir_buffer_ptr += 12;
+				break;
+			default:
+				break;
+		}
+	
+		temp_start_ptr = temp_start_ptr->next;
+	}
+
+	switch(temp_start_ptr->tag)
+	{
+		case 0x0112:
+			if(temp_start_ptr->record_type == 1)
+				break;
+		case 0x829a:
+		case 0x9209:
+		case 0x8822:
+		case 0x9207:
+		case 0x0084:
+		case 0x920a:
+		case 0xa405:
+		case 0x0083:
+		case 0x8827:
+		case 0x010f:
+		case 0x0110:
+		case 0x0131:
+		case 0x9004:
+		case 0x829d:
+		case 0x0002:
+		case 0x0013:
+		case 0x0004:
+		case 0x00a7:
+		case 0x0007:
+		case 0x0008:
+		case 0x0009:
+		case 0x0081:
+		case 0x008b:
+		case 0x008d:
+		case 0x0090:
+		case 0x0095:
+		case 0x00a9:
+		case 0x00aa:
+		case 0x00ab:
+		case 0xa002:
+		case 0xa003:
+		case 0x9204:
+		case 0x9286:
+			printf("tag: %x\n", temp_start_ptr->tag);
+			printf("Field_type: %d\n", temp_start_ptr->field_type);
+			printf("count: %d\n", temp_start_ptr->count);
+			printf("value_offset: %x\n", temp_start_ptr->value_offset);
+			printf("record_type: %d\n", temp_start_ptr->record_type);
+			ifde.tag = temp_start_ptr->tag;
+			ifde.field_type = temp_start_ptr->field_type;
+			ifde.count = temp_start_ptr->count;
+
+			if(temp_start_ptr->byte_count > 4)
+			{
+				if(temp_start_ptr->tag == 0x829a ||
+					temp_start_ptr->tag == 0x829d ||
+					temp_start_ptr->tag == 0x9204 ||
+					temp_start_ptr->tag == 0x920a)
+				{
+					type5_ptr = (struct type5 *) malloc(sizeof(struct type5));
+
+					type5_ptr->numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset);
+					type5_ptr->denominator = (unsigned long) Get32u((temp_start_ptr->data_at_offset + 4));
+
+					memcpy(temp_data_buffer_ptr, type5_ptr, temp_start_ptr->byte_count);
+					free(type5_ptr);
+				}
+				else if(temp_start_ptr->tag == 0x0084)
+				{
+					lens_ptr = (struct lens *) malloc(sizeof(struct lens));
+
+					lens_ptr->field_1.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset);
+					lens_ptr->field_1.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 4);
+					lens_ptr->field_2.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 8);
+					lens_ptr->field_2.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 12);
+					lens_ptr->field_3.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 16);
+					lens_ptr->field_3.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 20);
+					lens_ptr->field_4.numerator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 24);
+					lens_ptr->field_4.denominator = (unsigned long) Get32u(temp_start_ptr->data_at_offset + 28);
+
+					memcpy(temp_data_buffer_ptr, lens_ptr, temp_start_ptr->byte_count);
+					free(lens_ptr);
+				}
+				else
+				{
+					if(temp_start_ptr->tag == 0x0004)
+					{
+						memcpy(temp_data_buffer_ptr, "BASIC\0", strlen("BASIC\0"));
+						temp_start_ptr->byte_count = strlen("BASIC\0") + 1;
+						ifde.count = strlen("BASIC\0") + 1;
+					}
+					else if(temp_start_ptr->tag == 0x0131)
+					{
+						memset(buffer, (int) NULL, 256);
+						sprintf(buffer, "D70Reader - v%s\0", D70_VERSION);
+						memcpy(temp_data_buffer_ptr, buffer, strlen(buffer));
+						temp_start_ptr->byte_count = strlen(buffer) + 1;
+						ifde.count = strlen(buffer) + 1;
+					}
+					else
+						memcpy(temp_data_buffer_ptr, temp_start_ptr->data_at_offset, temp_start_ptr->byte_count);
+				}
+
+				temp_data_buffer_ptr += temp_start_ptr->byte_count;
+				ifde.value_offset = data_offset;
+				data_offset += temp_start_ptr->byte_count;
+			}
+			else
+			{
+				if(temp_start_ptr->tag == 0xa405 || 
+					temp_start_ptr->tag == 0x0112 ||
+					temp_start_ptr->tag == 0x8822 || 
+					temp_start_ptr->tag == 0x9209 || 
+					temp_start_ptr->tag == 0x9207)
+				{
+					ulong = temp_start_ptr->value_offset;
+
+					ubyte1 = (ulong & 0xff000000) >> 24;
+					ubyte2 = (ulong & 0x00ff0000) >> 16;
+					ubyte3 = (ulong & 0x0000ff00) >> 8;
+					ubyte4 = (ulong & 0x000000ff) >> 0;
+					ubyte5 = (ulong & 0xffff0000) >> 16;
+					ubyte6 = (ulong & 0x0000ffff) >> 0;
+
+					ifde.value_offset = ubyte5;
+				}
+				else if(temp_start_ptr->tag == 0x0083)
+				{
+					ulong = temp_start_ptr->value_offset;
+
+					ubyte1 = (ulong & 0xff000000) >> 24;
+					ubyte2 = (ulong & 0x00ff0000) >> 16;
+					ubyte3 = (ulong & 0x0000ff00) >> 8;
+					ubyte4 = (ulong & 0x000000ff) >> 0;
+					ubyte5 = (ulong & 0xffff0000) >> 16;
+					ubyte6 = (ulong & 0x0000ffff) >> 0;
+
+					ifde.value_offset = ubyte1;
+				}
+				else
+					ifde.value_offset = temp_start_ptr->value_offset;
+			}
+
+			memcpy(temp_dir_buffer_ptr, &ifde, 12);
+			temp_dir_buffer_ptr += 12;
+			break;
+		default:
+			break;
+	}
+
+	// working stuff follows
+
+	file_ptr = (char *) malloc(strlen(filename) + strlen(".JPG") + 1);
+	memset(file_ptr, (int) NULL, (strlen(filename) + strlen(".JPG") + 1));
+	strcat(file_ptr, filename);
+	strcat(file_ptr, ".JPG");
+	
+	byte_ptr = (char *) malloc(lThumbnailLength);
+
+	fseek(rfd, lThumbnailOffset + 2, 0);
+	fread(byte_ptr, lThumbnailLength, 1, rfd);
+
+	if((ofd = fopen(file_ptr, "wb")) == NULL)
+	{
+		printf("\nFile not created: %s\n\n", file_ptr);
+		exit(1);
+	}
+
+	if((size = fwrite(exif_header_ptr, (sizeof(struct exif_header) - 2), 1, ofd)) == 0)
+	{
+		printf("\nFile not written: %s\n\n", file_ptr);
+		exit(1);
+	}
+
+
+	if((size = fwrite(dir_buffer_ptr, ((12 * dir_count) + 4), 1, ofd)) == 0)
+	{
+		printf("\nFile not written: %s\n\n", file_ptr);
+		exit(1);
+	}
+
+	if((size = fwrite(data_buffer_ptr, 1024, 1, ofd)) == 0)
+	{
+		printf("\nFile not written: %s\n\n", file_ptr);
+		exit(1);
+	}
+
+	if((size = fwrite(byte_ptr, lThumbnailLength, 1, ofd)) == 0)
+	{
+		printf("\nFile not written: %s\n\n", file_ptr);
+		exit(1);
+	}
+
+	printf("Created file: %s\n", file_ptr);
+
+	fclose(ofd);
+
+	free(byte_ptr);
+	free(file_ptr);
+/*
+	free(exif_header_ptr);
+	free(dir_buffer_ptr);
+	free(data_buffer_ptr);
+*/
+	trace("-output_thumbnail\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void free_data_header_list(struct data_header *header_ptr)
+{
+	struct data_header *temp_header_ptr = NULL;
+
+	trace("+free_data_header_list\n");
+
+	while(header_ptr->next != NULL)
+	{
+		temp_header_ptr = header_ptr;
+		header_ptr = header_ptr->next;
+		free(temp_header_ptr);
+	}
+
+	free(header_ptr);
+	trace("-free_data_header_list\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+char *upper_case(char *local_ptr)
+{
+	int ctr1;
+	int length;
+	char *temp_ptr;
+	char *final_ptr;
+
+	trace("+upper_case\n");
+
+	temp_ptr = strdup(local_ptr);
+	final_ptr = temp_ptr;
+
+	length = strlen(temp_ptr);
+
+	for(ctr1 = 0; ctr1 < length; ctr1++)
+	{
+		*temp_ptr = toupper(*temp_ptr);
+		temp_ptr++;
+	}
+
+	trace("-upper_case\n");
+
+	return(final_ptr);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+char *get_extension(char *string)
+{
+	char *temp_ptr;
+	char *final_ptr;
+	char *token;
+
+	trace("+get_extension\n");
+
+	temp_ptr = strdup(string);
+
+	token = strtok(temp_ptr, ".");
+
+	do
+	{
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "token: %s\n", token);
+		trace(trace_buffer);
+
+		if(token != NULL)
+			final_ptr = token;
+
+		token = strtok(NULL, ".");
+	}
+	while(token != NULL);
+
+	trace("-get_extension\n");
+	return(final_ptr);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void my_error(FILE *rfd)
+{
+	if(ferror(rfd))
+	{
+		printf("Error number: %d", fileno(rfd));
+		exit(1);
+	}
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void  instruct()                                /*give instructions for use     */
+{
+        printf("\nD70Reader - Version %s - %s\n", D70_VERSION, D70_DATE); 
+        printf("\nThis is a Freeware program, use at your own risk.\n");
+
+        printf("\nThis program only works with Nikon D70/D100 image files.");
+        printf("\n(It will work with NEF/RAW and JPG files.)\n");
+
+        printf("\nCheck here for latest version:");
+        printf("\nhttp://home.comcast.net/~jonathan.oman/d70/index.html\n");
+
+        printf("\nFormat:");
+        printf("\n\td70reader [-h|-v|-w|-x|-j|-c] image_file_name\n");
+        printf("\n\td70reader [-h|-v|-w|-x|-j|-c] *.NEF *.JPG\n");
+        printf("\n\t-h = this screen");
+        printf("\n\t-v = verbose (raw data)");
+        printf("\n\t-w = generate HTML table");
+        printf("\n\t-x = generate XML tree");
+        printf("\n\t-j = extract JPG thumbnail image from NEF");
+        printf("\n\t-c = generate Comma Separated Values (CSV) data\n\n");
+
+	printf("Press <Enter> to Continue\n\n");
+	getchar();
+
+	printf("I am trying to make sense out of the following EXIF tags:\n\n");
+
+	printf("AF-S DX Zoom-Nikkor ED G IF:\n\n");
+	printf("LensType : 6\n");
+	printf("Lens : 18-70mm f/3.5-f/4.5\n");
+	printf("LensInfo : 40 01 0c 00\n\n");
+
+	printf("AF Zoom-Nikkor D:\n\n");
+	printf("LensType : 2\n");
+	printf("Lens : 70-300mm f/4.0-f/5.6\n");
+	printf("LensInfo : 48 01 0c 00\n\n");
+
+	printf("AF Nikkor D:\n\n");
+	printf("LensType : 2\n");
+	printf("Lens : 50mm f/1.8\n");
+	printf("LensInfo : 58 01 0c 00\n\n");
+
+	printf("AF Micro-Nikkor D:\n\n");
+	printf("LensType : 2\n");
+	printf("Lens : 60mm f/2.8\n");
+	printf("LensInfo : 54 01 0c 00 \n\n");
+
+	printf("I have identified the tag information for the above four lenses.\n");
+	printf("If you would like to help me decode the lens information into\n");
+	printf("something that makes sense (like my above lens descriptions),\n");
+	printf("please send me the above three EXIF data tags for your lenses,\n");
+	printf("to the following email address:\n\n");
+	printf("jonathan.oman@@comcast.net\n\n");
+
+
+}
+
+//--------------------------------------------------------------------------
+// Convert a 16 bit unsigned value from file's native byte order
+//--------------------------------------------------------------------------
+int Get16u(void * Short)
+{
+	if (MotorolaOrder)
+	{
+		return (((uchar *)Short)[0] << 8) | ((uchar *)Short)[1];
+	}
+	else
+	{
+		return (((uchar *)Short)[1] << 8) | ((uchar *)Short)[0];
+	}
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+static int Get32s(void * Long)
+{
+	if (MotorolaOrder)
+	{
+		return  ((( char *)Long)[0] << 24) | (((uchar *)Long)[1] << 16)
+			| (((uchar *)Long)[2] << 8 ) | (((uchar *)Long)[3] << 0 );
+	}
+	else
+	{
+		return  ((( char *)Long)[3] << 24) | (((uchar *)Long)[2] << 16)
+			| (((uchar *)Long)[1] << 8 ) | (((uchar *)Long)[0] << 0 );
+	}
+}
+
+//--------------------------------------------------------------------------
+// Convert a 32 bit unsigned value from file's native byte order
+//--------------------------------------------------------------------------
+unsigned Get32u(void * Long)
+{
+    return (unsigned)Get32s(Long) & 0xffffffff;
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void my_fseek(FILE *rfd, long pos, int offset)
+{
+	long new_pos;
+
+	trace("+my_fseek\n");
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "pos: %x\n", pos);
+	trace(trace_buffer);
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "offset: %d\n", offset);
+	trace(trace_buffer);
+	
+	if((new_pos = fseek(rfd, pos, offset)) != -1)
+	{
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "new_pos: %ld\n", new_pos);
+		trace(trace_buffer);
+
+		trace("-my_fseek\n");
+		return;
+	}
+	else
+	{
+		my_error(rfd);
+		exit(1);
+	}
+
+	trace("-my_fseek\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void dump_image_file_directory(FILE *rfd, unsigned long offset_ifd, unsigned long offset_base, char *type_ptr)
+{
+	char *buff_ptr = NULL;
+	char buffer[256];
+	char type_buffer[256];
+	struct image_file_directory_entry *ifde_ptr;
+	unsigned short count;
+	unsigned short num_ifd;
+	unsigned long ctr1;
+	unsigned long ctr3;
+	long old_position;
+	long temp_position;
+	int ByteCount;
+	unsigned long components;      		/*count               */
+	unsigned long value_offset;     	/*value offset        */
+	unsigned char *byte_ptr;
+	unsigned long *long_byte_ptr;
+
+	unsigned long maker_note_header_offset;
+
+	trace("+dump_image_file_directory\n");
+
+	printf("type_ptr: %s\n", type_ptr);
+
+	ifde_ptr = (struct image_file_directory_entry *) malloc(sizeof(struct image_file_directory_entry));
+	memset(ifde_ptr, (int) NULL, sizeof(struct image_file_directory_entry));
+
+	if(fseek(rfd, offset_ifd, 0) != -1)
+	{
+		fread(&count, sizeof(unsigned short), 1, rfd);
+		num_ifd = Get16u(&count);
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Number of Image File Directories: %d\n", num_ifd);
+		trace(trace_buffer);
+	}
+	else
+	{
+		my_error(rfd);
+	}
+
+	for(ctr1 = 0; ctr1 < num_ifd; ctr1++)
+	{
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "\nctr1: %d\n", ctr1);
+		trace(trace_buffer);
+
+		memset(ifde_ptr, (int) NULL, sizeof(struct image_file_directory_entry));
+		fread(ifde_ptr, sizeof(struct image_file_directory_entry), 1, rfd);
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "tag: %x\n", Get16u(&ifde_ptr->tag));
+		trace(trace_buffer);
+
+//		if(Get16u(&ifde_ptr->tag) == 0x9217)
+//			getchar();
+
+		header_ptr->tag = Get16u(&ifde_ptr->tag);
+		header_ptr->field_type = Get16u(&ifde_ptr->field_type);
+		header_ptr->count = Get32u(&ifde_ptr->count);
+		header_ptr->value_offset = Get32u(&ifde_ptr->value_offset);
+
+		if(!strncmp(type_ptr, "IFD0", 4))
+			header_ptr->record_type = 1;
+		else if(!strncmp(type_ptr, "SUB_IFD0", 8))
+			header_ptr->record_type = 3;
+		else if(!strncmp(type_ptr, "SUB_IFD1", 8))
+			header_ptr->record_type = 4;
+		else if(!strncmp(type_ptr, "EXIF", 4))
+			header_ptr->record_type = 5;
+		else if(!strncmp(type_ptr, "MAKER_NOTES", 11))
+			header_ptr->record_type = 6;
+		else
+			header_ptr->record_type = 99;
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Field Type: %x\n", Get16u(&ifde_ptr->field_type));
+		trace(trace_buffer);
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Number of Values: %x\n", Get32u(&ifde_ptr->count));
+		trace(trace_buffer);
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Value Offset: %x\n", Get32u(&ifde_ptr->value_offset));
+		trace(trace_buffer);
+
+		components = Get32u(&ifde_ptr->count);
+		value_offset = Get32u(&ifde_ptr->value_offset) + offset_base;
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "components: %d\n", components);
+		trace(trace_buffer);
+
+		old_position = ftell(rfd);
+
+		switch(Get16u(&ifde_ptr->field_type))
+		{
+			case 1:
+				ByteCount = components * 1;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+
+				if (ByteCount > 4)
+				{
+					byte_ptr = (unsigned char *) malloc(ByteCount);
+					fseek(rfd, Get32u(&ifde_ptr->value_offset), 0);
+					fread(byte_ptr, ByteCount, 1, rfd);
+					header_ptr->data_at_offset = byte_ptr;
+				}
+
+				break;
+			case 2:
+				ByteCount = components * 1;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				if (ByteCount > 4)
+				{
+					byte_ptr = (unsigned char *) malloc(ByteCount);
+					fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+					fread(byte_ptr, ByteCount, 1, rfd);
+					header_ptr->data_at_offset = byte_ptr;
+				}
+
+				break;
+			case 3:
+			case 8:
+				ByteCount = components * 2;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				if (ByteCount > 4)
+				{
+					byte_ptr = (unsigned char *) malloc(ByteCount);
+					fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+					fread(byte_ptr, ByteCount, 1, rfd);
+					header_ptr->data_at_offset = byte_ptr;
+				}
+
+				break;
+			case 4:
+				ByteCount = components * 4;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				if (ByteCount > 4)
+				{
+					if(Get16u(&ifde_ptr->tag) == TAG_SUBIFD_S)
+					{
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "Value Offset: %x\n", Get32u(&ifde_ptr->value_offset));
+						trace(trace_buffer);
+
+						my_fseek(rfd, Get32u(&ifde_ptr->value_offset), 0);
+						temp_position = ftell(rfd);
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "temp_position: %x\n", temp_position);
+						trace(trace_buffer);
+
+						for(ctr3 = 0; ctr3 < components; ctr3++)
+						{
+							long_byte_ptr = (unsigned long *) malloc(sizeof(unsigned long));
+							*long_byte_ptr = 0;
+							memset(buffer, (int) NULL, 256);
+							fread(long_byte_ptr, sizeof(unsigned long), 1, rfd);
+							sprintf(buffer, "%-04.4x", Get32u(long_byte_ptr));
+
+							trace("------Start SubIFD------\n");
+
+							//save file ptr
+							temp_position = ftell(rfd);
+		
+							memset(trace_buffer, (int) NULL, 256);
+							sprintf(trace_buffer, "temp_position: %x\n", temp_position);
+							trace(trace_buffer);
+
+							memset(trace_buffer, (int) NULL, 256);
+							sprintf(trace_buffer, "offset to count: %x\n", (Get32u(long_byte_ptr)));
+							trace(trace_buffer);
+
+							memset(type_buffer, (int) NULL, 256);
+							sprintf(type_buffer, "SUB_IFD%d", ctr3);
+
+							dump_image_file_directory(rfd, (Get32u(long_byte_ptr)), 0, type_buffer);
+		
+							//restore file ptr
+							fseek(rfd, temp_position, 0);
+
+							trace("------End SubIFD------\n");
+						}
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "get33u_long_byte_ptr: %x\n", Get32u(long_byte_ptr));
+						trace(trace_buffer);
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "buffer: %s\n", buffer);
+						trace(trace_buffer);
+	
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "long_byte_ptr: %x\n", *long_byte_ptr);
+						trace(trace_buffer);
+
+						free(long_byte_ptr);
+					}
+					else
+					{
+						byte_ptr = (unsigned char *) malloc(ByteCount);
+						fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+						fread(byte_ptr, ByteCount, 1, rfd);
+						header_ptr->data_at_offset = byte_ptr;
+					}
+				}
+				else
+				{
+					if(Get16u(&ifde_ptr->tag) == TAG_THUMBNAIL_OFFSET)
+					{
+						lThumbnailOffset = Get32u(&ifde_ptr->value_offset);
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "lThumbnailOffset: %ld\n", lThumbnailOffset);
+						trace(trace_buffer);
+					}
+
+					if(Get16u(&ifde_ptr->tag) == TAG_THUMBNAIL_LENGTH)
+					{
+						lThumbnailLength = Get32u(&ifde_ptr->value_offset);
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "lThumbnailLength: %ld\n", lThumbnailLength);
+						trace(trace_buffer);
+					}
+
+					if(Get16u(&ifde_ptr->tag) == TAG_EXIF_OFFSET)
+					{
+						trace("------Start EXIF------\n");
+						//save file ptr
+						temp_position = ftell(rfd);
+
+						memset(trace_buffer, (int) NULL, 256);
+						sprintf(trace_buffer, "temp_position: %x\n", temp_position);
+						trace(trace_buffer);
+
+						memset(type_buffer, (int) NULL, 256);
+						sprintf(type_buffer, "EXIF");
+
+						//call dump_.... with offset
+						dump_image_file_directory(rfd, Get32u(&ifde_ptr->value_offset) + jpg_type_offset(), jpg_type_offset(), type_buffer);
+
+						//restore file ptr
+						fseek(rfd, temp_position, 0);
+						trace("------End EXIF------\n");
+					}
+				}
+				break;
+			case 5:
+				ByteCount = components * 8;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				byte_ptr = (unsigned char *) malloc(ByteCount);
+				memset(byte_ptr, (int) 0xFF, ByteCount);
+				fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+				fread(byte_ptr, ByteCount, 1, rfd);
+				header_ptr->data_at_offset = byte_ptr;
+
+				break;
+			case 10:
+				ByteCount = components * 8;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				byte_ptr = (unsigned char *) malloc(ByteCount);
+				fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+				fread(byte_ptr, ByteCount, 1, rfd);
+				header_ptr->data_at_offset = byte_ptr;
+
+				break;
+			case 7:
+				ByteCount = components * 1;
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "ByteCount: %d\n", ByteCount);
+				trace(trace_buffer);
+				header_ptr->byte_count = ByteCount;
+
+				byte_ptr = (unsigned char *) malloc(ByteCount);
+				fseek(rfd, Get32u(&ifde_ptr->value_offset) + offset_base, 0);
+				fread(byte_ptr, ByteCount, 1, rfd);
+				header_ptr->data_at_offset = byte_ptr;
+
+				if(Get16u(&ifde_ptr->tag) == TAG_MAKER_NOTE)
+				{
+					trace("------Start Maker Notes------\n");
+
+					memset(trace_buffer, (int) NULL, 256);
+					sprintf(trace_buffer, "%x", Get32u(&ifde_ptr->value_offset));
+
+					//save file ptr
+					temp_position = ftell(rfd);
+
+					memset(trace_buffer, (int) NULL, 256);
+					sprintf(trace_buffer, "old_file_position: %x\n", temp_position);
+					trace(trace_buffer);
+
+					old_byte_order = MotorolaOrder;
+
+					maker_note_header_offset = Get32u(&ifde_ptr->value_offset) + MAKER_NOTE_PRE_HEADER_LENGTH + jpg_type_offset();
+
+					memset(trace_buffer, (int) NULL, 256);
+					sprintf(trace_buffer, "maker_note_header_offset: %x\n", maker_note_header_offset);
+					trace(trace_buffer);
+
+					fseek(rfd, maker_note_header_offset, 0);
+
+					memset(type_buffer, (int) NULL, 256);
+					sprintf(type_buffer, "MAKER_NOTES");
+
+					//call dump_.... with offset
+					dump_image_file_directory(rfd, (maker_note_header_offset + inspect_image_file_header(rfd, 1)), maker_note_header_offset, type_buffer);
+
+					MotorolaOrder = old_byte_order;
+
+					//restore file ptr
+					fseek(rfd, temp_position, 0);
+					trace("------End Maker Notes------\n");
+				}
+
+				break;
+			default:
+				memset(trace_buffer, (int) NULL, 256);
+				sprintf(trace_buffer, "Unknown Format: %x\n", Get16u(&ifde_ptr->field_type));
+				trace(trace_buffer);
+				break;
+		}
+
+		header_ptr->next = (struct data_header *) malloc(sizeof(struct data_header));
+		header_ptr = header_ptr->next;
+		memset(header_ptr, (int) NULL, sizeof(struct data_header));
+		iTagCount++;
+
+		fseek(rfd, old_position, 0);
+	}
+
+	trace("-dump_image_file_directory\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+struct data_header * get_new_data_header_ptr()
+{
+	struct data_header *local_header_ptr;
+	local_header_ptr = (struct data_header *) malloc(sizeof(struct data_header));
+	memset(local_header_ptr, (int) NULL, sizeof(struct data_header));
+	return(local_header_ptr);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void trace(char *str)
+{
+	if(iTrace)
+		printf("%s", str);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+unsigned long inspect_image_file_header(FILE *rfd, int iType)
+{
+        char buffer[256];
+        static unsigned char ExifHeader[] = "Exif\0\0";
+	struct image_file_header *ifh_ptr;
+	unsigned long offset_ifd;
+
+	struct jpg_indicator_header
+	{
+		unsigned char start;
+		unsigned char soi;
+		unsigned char pad;
+		unsigned char exif_ind;
+	};
+
+	struct jpg_indicator_header *jpg_ind_hdr_ptr;
+
+	trace("\n+inspect_image_file_header\n");
+
+	if(iType)
+	{
+		ifh_ptr = (struct image_file_header *) malloc(sizeof(struct image_file_header));
+		memset(ifh_ptr, (int) NULL, sizeof(struct image_file_header));
+
+		if((fread(ifh_ptr, sizeof(struct image_file_header), 1, rfd)) != 0)
+		{
+			memset(buffer, (int) NULL, 256);
+			memcpy(buffer, ifh_ptr->byte_order, 2);
+	
+			if(!strncmp(buffer, "MM", 2))
+				MotorolaOrder = 1;
+			else
+				MotorolaOrder = 0;
+	
+			offset_ifd = Get32u(&ifh_ptr->offset_to_first_ifd);
+	
+			memset(trace_buffer, (int) NULL, 256);
+			sprintf(trace_buffer, "Byte Order: %s\n", buffer);
+			trace(trace_buffer);
+			memset(trace_buffer, (int) NULL, 256);
+			sprintf(trace_buffer, "Image File Type: %x\n", Get16u(&ifh_ptr->image_file_type));
+			trace(trace_buffer);
+			memset(trace_buffer, (int) NULL, 256);
+			sprintf(trace_buffer, "Offset To First IFD: %x\n", offset_ifd);
+			trace(trace_buffer);
+	
+			if((!strncmp(buffer, "MM", 2)) && (Get16u(&ifh_ptr->image_file_type) == 42))
+			{
+			}
+			else if((!strncmp(buffer, "II", 2)) && (Get16u(&ifh_ptr->image_file_type) == 42))
+			{
+			}
+			else
+			{
+				printf("\nFile type is not NEF/Nikon RAW\n\n");
+				exit(1);
+			}
+	
+		}
+		else
+		{
+			my_error(rfd);
+		}
+	}
+	else
+	{
+		jpg_ind_hdr_ptr = (struct jpg_indicator_header *) malloc(sizeof(struct jpg_indicator_header));
+		memset(jpg_ind_hdr_ptr, (int) NULL, sizeof(struct jpg_indicator_header));
+
+		if((fread(jpg_ind_hdr_ptr, sizeof(struct jpg_indicator_header), 1, rfd)) != 0)
+		{
+			if(jpg_ind_hdr_ptr->start != 0xff)
+			{
+				my_exit("First byte must be 0xFF");
+			}
+
+			if(jpg_ind_hdr_ptr->soi != 0xd8)
+			{
+				my_exit("Second byte must be 0xD8");
+			}
+
+			if(jpg_ind_hdr_ptr->pad != 0xff)
+			{
+				my_exit("Third byte must be 0xFF");
+			}
+
+			fseek(rfd, 0, 0);
+
+			switch(jpg_ind_hdr_ptr->exif_ind)
+			{
+				case 0xe0:
+					iJPG_Type = 0;
+					fseek(rfd, 18, 0);
+					offset_ifd = get_jpg_type_and_offset(rfd, jpg_type_offset());
+					break;
+				case 0xe1:
+					iJPG_Type = 1;
+					offset_ifd = get_jpg_type_and_offset(rfd, jpg_type_offset());
+					break;
+				default:
+					memset(trace_buffer, (int) NULL, 256);
+					sprintf(trace_buffer, "Fourth byte is unknown: %x", jpg_ind_hdr_ptr->exif_ind);
+					my_exit(trace_buffer);
+					break;
+			}
+		}
+	}
+
+	trace("\n-inspect_image_file_header\n");
+	return(offset_ifd);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+unsigned long get_jpg_type_and_offset(FILE *rfd, unsigned long offset)
+{
+        char buffer[256];
+        static unsigned char ExifHeader[] = "Exif\0\0";
+	unsigned long offset_ifd;
+	struct jpg_image_file_header *jpg_ifh_ptr;
+
+	trace("\n+get_jpg_type_and_offset\n");
+
+	jpg_ifh_ptr = (struct jpg_image_file_header *) malloc(sizeof(struct jpg_image_file_header));
+	memset(jpg_ifh_ptr, (int) NULL, sizeof(struct jpg_image_file_header));
+
+	if((fread(jpg_ifh_ptr, sizeof(struct jpg_image_file_header), 1, rfd)) != 0)
+	{
+	        if (strncmp(jpg_ifh_ptr->exif_header_text, ExifHeader, 6))
+		{
+			my_exit("EXIF header text incorrect");
+		}
+			
+		memset(buffer, (int) NULL, 256);
+		memcpy(buffer, jpg_ifh_ptr->byte_order, 2);
+				
+		if(!strncmp(buffer, "MM", 2))
+			MotorolaOrder = 1;
+		else
+			MotorolaOrder = 0;
+				
+		offset_ifd = Get32u(&jpg_ifh_ptr->offset_to_first_ifd) + offset;
+				
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Byte Order: %s\n", buffer);
+		trace(trace_buffer);
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Image File Type: %x\n", Get16u(&jpg_ifh_ptr->image_file_type));
+		trace(trace_buffer);
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "Offset To First IFD: %x\n", offset_ifd);
+		trace(trace_buffer);
+
+		if(iTrace)
+		{
+			printf("\nstart: %x", jpg_ifh_ptr->start);
+			printf("\nsoi: %x", jpg_ifh_ptr->soi);
+			printf("\npad: %x", jpg_ifh_ptr->pad);
+			printf("\nexif_ind: %x", jpg_ifh_ptr->exif_ind);
+			printf("\nlength: %x", jpg_ifh_ptr->length);
+			printf("\nexif_header_text: %s", jpg_ifh_ptr->exif_header_text);
+			printf("\nbyte_order: %s", jpg_ifh_ptr->byte_order);
+			printf("\nimage_file_type: %x", jpg_ifh_ptr->image_file_type);
+			printf("\noffset: %x\n", jpg_ifh_ptr->offset_to_first_ifd);
+		}
+
+		if((!strncmp(buffer, "MM", 2)) && (Get16u(&jpg_ifh_ptr->image_file_type) == 42))
+		{
+		}
+		else if((!strncmp(buffer, "II", 2)) && (Get16u(&jpg_ifh_ptr->image_file_type) == 42))
+		{
+		}
+		else
+		{
+			printf("\nFile type is not Nikon JPG\n\n");
+			exit(1);
+		}
+				
+	}
+	else
+	{
+		my_error(rfd);
+	}
+
+	trace("\n-get_jpg_type_and_offset\n");
+	return(offset_ifd);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+int jpg_type_offset()
+{
+	int iType;
+
+	switch(iJPG_Type)
+	{
+		case 0:
+			iType = 30;
+			break;
+		case 1:
+			iType = 12;
+			break;
+		case 99:
+			iType = 0;
+			break;
+		default:
+			iType = -1;
+			break;
+	}
+
+	return(iType);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void my_exit(char *text_ptr)
+{
+	printf("\n\n%s\n", text_ptr);
+	printf("\n%s\n\n", "File is not a JPG/JPEG file");
+	exit(1);
+}
+
+@
+
+
+1.2
+log
+@Additional changes.
+@
+text
+@a116 1
+void free_html_header_list(struct html_header *header_ptr);
+d118 1
+d310 3
+a316 1
+			case 0x0112:
+d363 2
+a364 1
+	FILE *ofd;
+a368 16
+/*
+struct ifd_entry
+{
+        unsigned short tag;                     
+        unsigned short field_type;              
+        unsigned long count;                    
+        unsigned long value_offset;             
+	unsigned char *data_at_offset;
+	struct ifd_entry *next;
+};
+
+//. Use the above structure to go through the EXIF data again.
+//. Filter the data to just the ones I want.
+//. Using the above linked list, and the exif_header below, output the data to the new file.
+//. Append the JPG thumbnail to the above file data.
+*/
+d383 20
+a402 2
+	};
+
+d413 9
+a421 2
+	unsigned long xx;
+
+d447 1
+a447 1
+	dir_buffer_ptr = (unsigned char *) malloc(12 * dir_count);
+d451 1
+a451 1
+	data_offset = sizeof(struct exif_header) + (12 * dir_count) - 14;
+d453 1
+a453 1
+	memset(dir_buffer_ptr, (int) NULL, (12 * dir_count));
+d456 2
+a457 1
+	exif_header_ptr->length = (12 * dir_count) + sizeof(struct exif_header) + 1024 - 2;
+d467 3
+a473 1
+			case 0x0112:
+d514 6
+a519 1
+					xx = Get32u(&temp_start_ptr->data_at_offset);
+d521 41
+a561 4
+//					if(temp_start_ptr->field_type == 3)
+//						memcpy(temp_data_buffer_ptr, &xx, temp_start_ptr->count);
+//					else
+						memcpy(temp_data_buffer_ptr, temp_start_ptr->data_at_offset, temp_start_ptr->byte_count);
+d568 34
+a601 1
+					ifde.value_offset = temp_start_ptr->value_offset;
+d615 3
+a621 1
+		case 0x0112:
+d651 9
+a659 9
+			printf("tag: %x\n", temp_start_ptr->tag);
+			printf("Field_type: %d\n", temp_start_ptr->field_type);
+			printf("count: %d\n", temp_start_ptr->count);
+			printf("value_offset: %x\n", temp_start_ptr->value_offset);
+			printf("record_type: %d\n", temp_start_ptr->record_type);
+			ifde.tag = temp_start_ptr->tag;
+			ifde.field_type = temp_start_ptr->field_type;
+			ifde.count = temp_start_ptr->count;
+
+d662 50
+a711 2
+				memcpy(temp_data_buffer_ptr, temp_start_ptr->data_at_offset, temp_start_ptr->count);
+				temp_data_buffer_ptr += temp_start_ptr->count;
+d713 1
+a713 1
+				data_offset += temp_start_ptr->count;
+d716 34
+a749 1
+				ifde.value_offset = temp_start_ptr->value_offset;
+d767 1
+a767 1
+	fseek(rfd, lThumbnailOffset, 0);
+d783 1
+a783 1
+	if((size = fwrite(dir_buffer_ptr, (12 * dir_count), 1, ofd)) == 0)
+a817 18
+char *strip(char *str_input)
+{
+	char *temp_ptr;
+	char *token;
+
+	trace("+strip\n");
+
+	temp_ptr = strdup(str_input);
+
+	token = strtok(temp_ptr, " ");
+
+	trace("-strip\n");
+	return(token);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+a837 20
+void free_html_header_list(struct html_header *header_ptr)
+{
+	struct html_header *temp_header_ptr = NULL;
+
+	trace("+free_html_header_list\n");
+
+	while(header_ptr->next != NULL)
+	{
+		temp_header_ptr = header_ptr;
+		header_ptr = header_ptr->next;
+		free(temp_header_ptr);
+	}
+
+	free(header_ptr);
+	trace("-free_html_header_list\n");
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+a897 93
+void rev_memory( unsigned char *Lf07a_address, unsigned int Lf07b_length)
+{
+	unsigned char Lf07c_hold_val;
+	unsigned int Lf07d_offset;
+
+	trace("+rev_memory\n");
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "Lf07a_address: %s\n", Lf07a_address);
+	trace(trace_buffer);
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "Lf07b_length: %d\n", Lf07b_length);
+	trace(trace_buffer);
+
+	Lf07d_offset = 0;
+
+	while (Lf07d_offset < Lf07b_length)
+	{
+		Lf07c_hold_val = Lf07a_address[Lf07d_offset];
+		Lf07a_address[Lf07d_offset++] = Lf07a_address[--Lf07b_length];
+		Lf07a_address[Lf07b_length] = Lf07c_hold_val;
+	}
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "Lf07a_address: %s\n", Lf07a_address);
+	trace(trace_buffer);
+
+	trace("-rev_memory\n");
+
+	return;
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+unsigned char * pad_field(unsigned char *str_ptr, int length, char pad_char, int iPrePend)
+{
+	int ctr1;
+	unsigned char *temp_ptr;
+	unsigned char buffer[2];
+
+	trace("+pad_field\n");
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "str_ptr: %s\n", str_ptr);
+	trace(trace_buffer);
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "length: %d\n", length);
+	trace(trace_buffer);
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "pad_char: %c\n", pad_char);
+	trace(trace_buffer);
+
+	memset(buffer, (int) NULL, 2);
+	buffer[0] = pad_char;
+
+	temp_ptr = (unsigned char *) malloc(strlen(str_ptr) + length + 1);
+	memset(temp_ptr, (int) NULL, strlen(str_ptr) + length + 1);
+
+	if(iPrePend)
+	{
+		for(ctr1 = 0; ctr1 < (length - (int) strlen(str_ptr)); ctr1++)
+		{
+			strcat(temp_ptr, buffer);
+		}
+
+		strcat(temp_ptr, str_ptr);
+	}
+	else
+	{
+		strcat(temp_ptr, str_ptr);
+
+		for(ctr1 = 0; ctr1 < (length - (int) strlen(str_ptr)); ctr1++)
+		{
+			strcat(temp_ptr, buffer);
+		}
+	}
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "temp_ptr: %s\n", temp_ptr);
+	trace(trace_buffer);
+
+	trace("-pad_field\n");
+
+	return temp_ptr;
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+a981 28
+// Convert a 16 bit unsigned value from file's native byte order
+//--------------------------------------------------------------------------
+unsigned int uGet16u(void * Short)
+{
+	if (MotorolaOrder)
+	{
+		return (((uchar *)Short)[0] << 8) | ((uchar *)Short)[1];
+	}
+	else
+	{
+		return (((uchar *)Short)[1] << 8) | ((uchar *)Short)[0];
+	}
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+unsigned long rotate_right(unsigned long Long)
+{
+
+	unsigned long mByte0;
+
+	mByte0 = Long >> 16;
+
+	return(mByte0);
+}
+
+//--------------------------------------------------------------------------
+a1418 86
+struct html_header * get_new_html_header_ptr()
+{
+	struct html_header *local_header_ptr;
+	local_header_ptr = (struct html_header *) malloc(sizeof(struct html_header));
+	memset(local_header_ptr, (int) NULL, sizeof(struct html_header));
+	return(local_header_ptr);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+void long_to_asc( unsigned long Lf15a_long_value, char *Lf15b_str_ptr, int Lf15c_length, char Lf15d_blank)
+{
+  int Lf15e_temp;
+
+/************************************************************************/
+/*                                                                      */
+/* Pre-fill the string to all blanks or zeros depending on the blank    */
+/* fill flag and check for the special case of a zero value.            */
+/*                                                                      */
+/************************************************************************/
+
+  for (Lf15e_temp = 0; Lf15e_temp < Lf15c_length; Lf15e_temp++)
+    Lf15b_str_ptr[Lf15e_temp] = (Lf15d_blank) ? ' ' : '0';
+
+  if (Lf15a_long_value == 0)
+    Lf15b_str_ptr[Lf15c_length - 1] = '0';
+
+/************************************************************************/
+/*                                                                      */
+/* Loop through for the entire length or until zero value reached.      */
+/*                                                                      */
+/************************************************************************/
+
+  while (Lf15a_long_value > 0 && Lf15c_length > 0)
+  {
+    Lf15b_str_ptr[--Lf15c_length] = (char) Lf15a_long_value % 10 + '0';
+    Lf15a_long_value /= 10;
+  }
+
+  return;
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+char * get_data_from_long(unsigned long Long)
+{
+	int ctr1;
+	char *ptr;
+	char *ptr2;
+	static char lbuffer[5];
+
+	trace("\n+get_data_from_long\n");
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "Long: %x\n", Long);
+	trace(trace_buffer);
+
+	ptr = (char *) &Long;
+
+	memset(lbuffer, (int) NULL, 5);
+
+	for(ctr1 = 3; ctr1 >= 0; ctr1--)
+	{
+		lbuffer[ctr1] = ptr[ctr1];
+
+		memset(trace_buffer, (int) NULL, 256);
+		sprintf(trace_buffer, "lbuffer[%d]: %x\n", ctr1, lbuffer[ctr1]);
+		trace(trace_buffer);
+	}
+
+	ptr2 = &lbuffer[0];
+
+	memset(trace_buffer, (int) NULL, 256);
+	sprintf(trace_buffer, "returned data: [%s], length: %d\n", ptr2, strlen(ptr2));
+	trace(trace_buffer);
+
+	trace("\n-get_data_from_long\n");
+
+	return(ptr2);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+a1619 8
+int jpg_type()
+{
+	return(iJPG_Type);
+}
+
+//--------------------------------------------------------------------------
+// 
+//--------------------------------------------------------------------------
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+/*	$Id:$	*/
+d37 1
+a37 1
+static char rcsid[] = "$Id:$";
+d68 2
+a69 1
+	int record_type;
+d118 1
+d405 4
+a408 1
+	unsigned short dir_count = 0;
+d412 3
+a414 1
+	exif_header_ptr = (struct exif_header *) malloc(sizeof(struct exif_header));
+d422 1
+a422 1
+	memcpy(exif_header_ptr->byte_order,"MM", 2);
+d437 3
+a439 1
+	data_buffer_ptr = (unsigned char *) malloc(1024);
+d443 2
+d496 19
+a514 3
+				ifde.value_offset = temp_start_ptr->value_offset;
+				memcpy(temp_dir_buffer_ptr, &ifde, 12);
+				temp_dir_buffer_ptr += 12;
+d567 13
+a579 3
+			ifde.value_offset = temp_start_ptr->value_offset;
+			memcpy(temp_dir_buffer_ptr, &ifde, 12);
+			temp_dir_buffer_ptr += 12;
+d603 1
+a603 1
+	if((size = fwrite(exif_header_ptr, sizeof(struct exif_header), 1, ofd)) == 0)
+d1133 1
+d1141 1
+a1141 1
+					header_ptr->data_at_offset = byte_ptr;
+d1150 1
+d1167 1
+d1183 1
+d1301 1
+d1303 2
+a1304 1
+				byte_ptr = (unsigned char *) malloc(ByteCount);
+d1315 1
+d1328 1
+@

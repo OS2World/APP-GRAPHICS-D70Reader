@@ -1,0 +1,510 @@
+ADOBE SYSTEMS INCORPORATED
+
+
+
+OPEN SOURCE LICENSE
+
+
+
+NOTICE TO USER:  Adobe Systems Incorporated is providing the Software and 
+
+Documentation for use under the terms of this Agreement.  Any use, reproduction, 
+
+modification or distribution of the Software or Documentation, or any 
+
+derivatives or portions thereof, constitutes your acceptance of this Agreement.
+
+
+
+As used in this Agreement, "Adobe" means Adobe Systems Incorporated.  "Software" 
+
+means the software code accompanying this Agreement.   "Documentation" means the 
+
+documents, specifications and all other items accompanying this Agreement other 
+
+than the Software.   
+
+
+
+1.  LICENSE GRANTSubject to the terms of this Agreement, Adobe hereby grants you 
+
+a non-exclusive, worldwide, royalty free license to use, reproduce, prepare 
+
+derivative works from, publicly display, publicly perform, distribute and 
+
+sublicense the Software for any purpose, provided the copyright notice below 
+
+appears in a conspicuous location within the source code of the distributed 
+
+Software and this license is distributed in the supporting documentation of the 
+
+Software you distribute.
+
+
+
+Copyright (date here) Adobe Systems Incorporated and others.  All rights 
+
+reserved.  The original version of this source code may be found at 
+
+http://adobe.com.
+
+
+
+Subject to the terms of this Agreement, Adobe hereby grants you a non-exclusive, 
+
+worldwide, royalty free license to use, reproduce, publicly display, publicly 
+
+perform, distribute and sublicense the Documentation  for any purpose.  You may 
+
+not modify the Documentation.
+
+
+
+No title to the intellectual property in the Software or Documentation is 
+
+transferred to you under the terms of this Agreement.  You do not acquire any 
+
+rights to the Software or the Documentation except as expressly set forth in 
+
+this Agreement.
+
+
+
+If you choose to distribute the Software in a commercial product, you do so with 
+
+the understanding that you agree to defend, indemnify and hold harmless Adobe 
+
+against any losses, damages and costs arising from the claims, lawsuits or other 
+
+legal actions arising out of such distribution.  You may distribute the Software 
+
+in object code form under your own license, provided that your license 
+
+agreement:
+
+
+
+(a) 	complies with the terms and conditions of this license agreement; 
+
+
+
+(b) 	effectively disclaims all warranties and conditions, express or implied, 
+
+on behalf of Adobe;
+
+
+
+(c) 	effectively excludes all liability for damages on behalf of Adobe;
+
+
+
+(d) 	states that any provisions that differ from this Agreement are offered by 
+
+you alone and not Adobe; and
+
+
+
+(e) 	states that the Software is available from you or Adobe and informs 
+
+licensees how to obtain it in a reasonable manner on or through a medium 
+
+customarily used for software exchange.  
+
+
+
+2.  DISCLAIMER OF WARRANTY
+
+ADOBE LICENSES THE SOFTWARE AND DOCUMENTATION TO YOU ONLY ON AN "AS IS" BASIS 
+
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, 
+
+INCLUDING WITHOUT LIMITATION ANY WARRANTIES OR CONDITIONS OF TITLE, NON-
+
+INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  ADOBE MAKES 
+
+NO WARRANTY THAT THE SOFTWARE OR DOCUMENTATION WILL BE ERROR-FREE.  Each user of 
+
+the Software or Documentation is solely responsible for determining the 
+
+appropriateness of using and distributing the Software and Documentation and 
+
+assumes all risks associated with its exercise of rights under this Agreement, 
+
+including but not limited to the risks and costs of program errors, compliance 
+
+with applicable laws, damage to or loss of data, programs, or equipment, and 
+
+unavailability or interruption of operations.  Use of the Software and 
+
+Documentation is made with the understanding that Adobe will not provide you 
+
+with any technical or customer support or maintenance.  Some states or 
+
+jurisdictions do not allow the exclusion of implied warranties or limitations on 
+
+how long an implied warranty may last, so the above limitations may not apply to 
+
+you.  To the extent permissible, any implied warranties are limited to ninety 
+
+(90) days.
+
+
+
+
+
+3.  LIMITATION OF LIABILITY
+
+ADOBE AND ITS SUPPLIERS SHALL NOT BE LIABLE FOR LOSS OR DAMAGE ARISING OUT OF 
+
+THIS AGREEMENT OR FROM THE USE OF THE SOFTWARE OR DOCUMENTATION.  IN NO EVENT 
+
+WILL ADOBE BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, 
+
+CONSEQUENTIAL, INCIDENTAL, OR SPECIAL DAMAGES INCLUDING LOST PROFITS, LOST 
+
+SAVINGS, COSTS, FEES, OR EXPENSES OF ANY KIND ARISING OUT OF ANY PROVISION OF 
+
+THIS AGREEMENT OR THE USE OR THE INABILITY TO USE THE SOFTWARE OR DOCUMENTATION, 
+
+HOWEVER CAUSED AND UNDER ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+
+LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE), EVEN IF ADVISED OF THE 
+
+POSSIBILITY OF SUCH DAMAGES.  ADOBE'S AGGREGATE LIABILITY AND THAT OF ITS 
+
+SUPPLIERS UNDER OR IN CONNECTION WITH THIS AGREEMENT SHALL BE LIMITED TO THE 
+
+AMOUNT PAID BY YOU FOR THE SOFTWARE AND DOCUMENTATION. 
+
+
+
+4.  TRADEMARK USAGE
+
+Adobe and XMP are the trademarks or registered trademarks of Adobe Systems 
+
+Incorporated in the United States and other countries.  Such trademarks may not 
+
+be used to endorse or promote any product unless expressly permitted under 
+
+separate agreement with Adobe.  
+
+
+
+5.  TERM
+
+Your rights under this Agreement shall terminate if you fail to comply with any 
+
+of the material terms or conditions of this Agreement and do not cure such 
+
+failure in a reasonable period of time after becoming aware of such 
+
+noncompliance.  If all your rights under this Agreement terminate, you agree to 
+
+cease use and distribution of the Software and Documentation as soon as 
+
+reasonably practicable. 
+
+
+
+6. GOVERNING LAW AND JURISDICTION. This Agreement is governed by the statutes 
+
+and laws of the State of California, without regard to the conflicts of law 
+
+principles thereof.  If any part of this Agreement is found void and 
+
+unenforceable, it will not affect the validity of the balance of the Agreement, 
+
+which shall remain valid and enforceable according to its terms.  Any dispute 
+
+arising out of or related to this Agreement shall be brought in the courts of 
+
+Santa Clara County, California, USA. 
+
+
+
+7.  GENERAL
+
+You acknowledge that you have read this Agreement, understand it, and that it is 
+
+the complete and exclusive statement of your agreement with Adobe which 
+
+supersedes any prior agreement, oral or written, between Adobe and you with 
+
+respect to the licensing to you of the Software and Documentation. No variation 
+
+of the terms of this Agreement will be enforceable against Adobe unless Adobe 
+
+gives its express consent in writing signed by an authorized signatory of Adobe.
+
+
+
+
+
+MetadataFrameworkSDK.09.13.01_10:44
+
+
+
+
+
+
+
+
+
+
+
+
+
+ADOBE SYSTEMS INCORPORATED
+
+
+
+LICENCE DE LOGICIEL LIBRE
+
+
+
+AVIS À L'UTILISATEUR : Adobe Systems Incorporated  fournit le Logiciel (défini 
+
+ci-après) et la Documentation (définie ci-après)en vue d'une utilisation 
+
+conformément aux dispositions du présent Contrat. Le fait d'utiliser, de 
+
+reproduire, de modifier ou de distribuer le code source initial, la 
+
+documentation ou les produits associés accompagnant le présent Contrat, ainsi 
+
+que tout produit dérivé ou toute partie de ces produits vaut acceptation par 
+
+vous des dispositions du présent Contrat.
+
+
+
+Comme utilisé dans ce contrat, Adobe équivaut à Adobe Systems Incorporated.  
+
+Logiciel équivaut au code accompagnant ce contrat. La Documentation représente 
+
+tous les documents, toutes les spécifications ainsi que tous les autres 
+
+composants qui accompagnent ce présent contrat autres que le Logiciel.
+
+
+
+1. CONCESSION DE LA LICENCE
+
+Sous réserve des dispositions du présent Contrat, Adobe vous concède par les 
+
+présentes une licence non exclusive, valable dans le monde entier et gratuite 
+
+pour utiliser, reproduire, créer des œuvres dérivées, représenter publiquement, 
+
+exploiter publiquement, distribuer et  sous-licencier le Logiciel à toutes fins, 
+
+à condition que la mention de droit de propriété intellectuelle ci-dessous 
+
+figure à un endroit visible dans le code source du Logiciel distribué, et que la 
+
+présente licence figure dans la documentation accompagnant ledit Logiciel que 
+
+vous distribuez.
+
+
+
+Droits de propriété intellectuelle (indiquer la date ici) d'Adobe Systems 
+
+Incorporated et autres. Tous droits réservés. La version originale de ce code 
+
+source est disponible sur le site http://adobe.com.
+
+
+
+Sous réserve des dispositions du présent Contrat, Adobe vous concède par les 
+
+présentes une licence non exclusive, valable dans le monde entier et gratuite 
+
+pour utiliser, reproduire, représenter publiquement, exploiter publiquement, 
+
+distribuer et  sous-licencier la Documentation à toutes fins. La Documentation 
+
+ne peut être modifiée en aucun cas. 
+
+
+
+Sauf disposition expréssément prévue dans le cadre du présent Contrat, aucun 
+
+droit de propriété intellectuelle concernant le Logiciel et la Documentation ne 
+
+vous est concédé en vertu des présentes. Si vous décidez de distribuer le 
+
+Logiciel comme une partie d'un produit commercial, vous vous engagez à défendre, 
+
+indemniser et garantir Adobe contre toutes pertes, dommages et coûts résultant 
+
+de réclamations, poursuites ou autres actions légales consécutives à cette 
+
+distribution. Vous pouvez distribuer le Logiciel sous forme de code objet aux 
+
+conditions de votre propre licence, à condition que votre contrat de licence :
+
+
+
+(a) soit conforme aux dispositions du présent Contrat de licence;
+
+
+
+(b) exclue de manière effective toutes les garanties et conditions, expresses ou 
+
+implicites, au nom d'Adobe;
+
+
+
+(c) exclue de manière effective toute responsabilité au nom d'Adobe;
+
+
+
+(d) déclare que toute disposition qui diffère du présent Contrat  relève de 
+
+votre propre responsabilité et non de celle d'Adobe;
+
+
+
+(e) déclare que le Logiciel est disponible auprès de vous-même ou d'Adobe, et 
+
+indique aux licenciés comment obtenir par un moyen raisonnable ou sur un support 
+
+habituellement utilisé l'échange de logiciels.
+
+
+
+2. EXCLUSION DE GARANTIE
+
+ADOBE VOUS CONCEDE LE LOGICIEL SOUS LICENCE " EN L'ÉTAT " AINSI QUE LA 
+
+DOCUMENTATION, SANS GARANTIE OU CONDITION QUELLE QU'ELLE SOIT, EXPRESSE OU 
+
+IMPLICITE, Y COMPRIS NOTAMMENT, TOUTE GARANTIE OU CONDITION DE PROPRIÉTÉ, DE 
+
+NON-CONTREFAÇON, DE QUALITÉ MARCHANDE OU D'ADEQUATION À UN USAGE PARTICULIER. 
+
+ADOBE NE GARANTIT PAS QUE LE LOGICIEL ET LA DOCUMENTATION SERA EXEMPT D'ERREURS. 
+
+La pertinence de l'utilisation et de la distribution du Logiciel ou de la 
+
+Documentation sera laissée à la seule appréciation de l'utilisateur, qui 
+
+assumera tous les risques relatifs à l'exercice de ses droits en vertu du 
+
+présent Contrat, y compris notamment, les risques et coûts concernant les 
+
+erreurs des programmes, le respect des lois applicables, les dommages ou pertes 
+
+de données, les programmes ou de matériels, ainsi que l'indisponibilité ou 
+
+l'interruption de l'exploitation. Il est entendu que, dans le cadre de 
+
+l'utilisation du Logiciel et de la Documentation, Adobe ne vous fournira aucun 
+
+support technique ni aucune assistance clientèle. Certains Etats ou juridictions 
+
+ne reconnaissent pas les exclusions de garanties implicites ou les limitations 
+
+concernant la durée de validité d'une garantie implicite. Dans ce cas, les 
+
+limitations ci-dessus peuvent ne pas s'appliquer. Dans les limites autorisées 
+
+par la loi, toute garantie implicite est limitée à quatre-vingt-dix (90) jours.
+
+
+
+3. LIMITATION DE RESPONSABILITÉ
+
+ADOBE ET SES FOURNISSEURS NE SAURAIENT ÊTRE TENUS RESPONSABLES DE PERTES OU 
+
+DOMMAGES DÉCOULANT DU PRÉSENT CONTRAT OU DE L'UTILISATION DU LOGICIEL OU DE LA 
+
+DOCUMENTATION. EN AUCUN CAS ADOBE NE POURRA ÊTRE TENU POUR RESPONSABLE ENVERS 
+
+VOUS OU UN QUELCONQUE TIERS DE TOUT DOMMAGE DIRECT, INDIRECT, CONSÉCUTIF, 
+
+ACCESSOIRE OU PARTICULIER, Y COMPRIS DU MANQUE À GAGNER, DES COÛTS, FRAIS OU 
+
+DÉPENSES DE TOUTE NATURE DÉCOULANT D'UNE DISPOSITION DU PRÉSENT CONTRAT, DE 
+
+L'UTILISATION OU DE L'IMPOSSIBILITE D'UTILISER LE LOGICIEL OU LA DOCUMENTATION, 
+
+QUELLE QU'EN SOIT LA CAUSE ET LE FONDEMENT DE LA RESPONSABILITÉ INVOQUÉ, QU'IL 
+
+S'AGISSE DE RESPONSABILITE CONTRACTUELLE, OBJECTIVE SANS FAUTE, OU DÉLICTUELLE 
+
+(Y COMPRIS LA NÉGLIGENCE OU AUTRE), ET CE MÊME SI ADOBE A ÉTÉ AVERTI DE LA 
+
+POSSIBILITÉ DE TELS DOMMAGES. LA RESPONSABILITÉ INTEGRALE D'ADOBE ET DE SES 
+
+FOURNISSEURS EN VERTU DE OU CONNEXE AU PRÉSENT CONTRAT SERA LIMITEE AU MONTANT 
+
+PAYE POUR LE LOGICIEL ET LA DOCUMENTATION.
+
+
+
+4. UTILISATION DE LA MARQUE COMMERCIALE
+
+Adobe et XMP sont des marques commerciales ou des marques déposées d'Adobe 
+
+Systems Incorporated aux États-Unis et dans d'autres pays. Ces marques ne 
+
+peuvent pas être utilisées pour recommander ou promouvoir un quelconque produit, 
+
+sauf autorisation expresse d'Adobe par  contrat séparé. 
+
+
+
+5. DUREE
+
+Vos droits en vertu du présent Contrat prendront fin en cas de manquement de 
+
+votre part à une disposition essentielle dudit Contrat et si vous ne réparez pas 
+
+ledit manquement dans un délai raisonnable après en avoir été informé. En cas de 
+
+résilitation de tous vos droits prévus dans le présent Contrat, vous vous 
+
+engagez à ne plus utiliser et distribuer le Logiciel et la Documentation dès que 
+
+cela sera raisonnablement possible.
+
+
+
+6. DROIT APPLICABLE ET ATTRIBUTION DE COMPETENCE. Le présent Contrat est régi 
+
+par le droit de l'État de Californie, à l'exclusion de ses règles de conflits de 
+
+lois. Si une disposition du présent Contrat est considérée comme nulle ou 
+
+inopposable, la validité des autres dispositions du présent Contrat n'en sera 
+
+pas affectée, et resteront en vigueur ou opposable. Les  tribunaux du Conté de 
+
+Santa Clara, en Californie (aux Etats-Unis) auront compétence exclusive pour 
+
+connaître de tout litige relatif au présent Contrat. 
+
+
+
+7. DISPOSITIONS GÉNÉRALES. 
+
+Vous reconnaissez avoir lu et compris le présent Contrat et qu'il constitue 
+
+l'intégralité de votre accord contractuel avec Adobe. Le présent Contrat annule 
+
+et  remplace tout accord antérieur, écrit ou oral, conclu entre Adobe et vous-
+
+même relativement à la concession d'une licence du Logiciel et de la 
+
+Documentation. Aucune modification des dispositions du présent Contrat ne sera 
+
+opposable à Adobe si elle n'est pas expressément acceptée dans un document écrit 
+
+signé par un représentant dûment habilité par Adobe.
+
+
+
+MetadataFrameworkSDK.French.09.13.01_10:44
+

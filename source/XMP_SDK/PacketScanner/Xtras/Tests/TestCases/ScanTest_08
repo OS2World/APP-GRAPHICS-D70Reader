@@ -1,0 +1,30 @@
+ Packets with bytes attribute, without encoding, read-only and all quote combos                   |
+                                                                                                  |
+          1         2         3         4         5         6         7         8         9       9
+ 1 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678
+ 2 all single quotes:                                                                             |
+ 3 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes='400'?>         <?xpacket end='r'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+ 8 all double quotes:                                                                             |                                                      |
+ 9 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d" bytes="400"?>         <?xpacket end="r"?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+14 all but one single quote:                                                                      |                                                               |
+15 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" bytes='400'?>         <?xpacket end='r'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+20 all but one double quote:                                                                      |      
+21 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" bytes="400"?>         <?xpacket end="r"?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG                                                                                    |
+26        1         2         3         4         5         6         7         8         9       9
+27 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678

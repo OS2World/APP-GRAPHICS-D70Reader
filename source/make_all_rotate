@@ -1,0 +1,10 @@
+#!/bin/sh
+cd XMP_SDK/MetadataToolkit/Build/UNIX
+make_release
+cd ../../../../jpeglib
+./configure
+make
+cd ..
+cc -o d70reader -I ./jpeglib -I ./XMP_SDK/MetadataToolkit/Headers -I ./XMP_SDK/PacketScanner/Headers -D __UNIX_ONLY__=1 -D ALLOW_ROTATE=1 -D XMP_SDK=1 d70reader.c d70buildweb.c d70resize.c d70utils.c d70jpegtran.c XAPDumper.cpp XMPGizmos.cpp ./XMP_SDK/PacketScanner/Source/XMLPacketScanner.cpp ./jpeglib/cdjpeg.o ./jpeglib/rdswitch.o ./jpeglib/transupp.o /usr/lib/libffi.a /usr/lib/libstdc++.a /usr/lib/libsupc++.a ./jpeglib/libjpeg.a ./XMP_SDK/MetadataToolkit/Build/UNIX/libxmptk.a /usr/lib/libm.a
+cp ./d70reader ../bin
+rm ./d70reader

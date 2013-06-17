@@ -1,0 +1,5 @@
+﻿This file was created in SC UniPad with UTF-8 encoding:
+The byte order marker in the begin attribute should be U+FFFE.
+It is expected that there will be errors when the tester tries to add
+in another BOM. Just look at the output of the first 3 tests w/o an added BOM.
++++hG<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'?>---tG

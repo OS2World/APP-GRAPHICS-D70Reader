@@ -1,0 +1,13 @@
+Missing mandatory attributes in header and trailer
+
+missing begin attribute in header:
+<?xpacket id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket end='r'?>
+
+missing id attribute in header:
+<?xpacket begin='' ?> <?xpacket end='r'?>
+
+missing end attribute in trailer:
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> <?xpacket ?>
+
+valid trailer to match valid header:
+<?xpacket end='r'?>---tG

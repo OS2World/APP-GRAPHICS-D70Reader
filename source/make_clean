@@ -1,0 +1,8 @@
+#!/bin/sh
+cd XMP_SDK/MetadataToolkit/Build/UNIX
+rm *.o
+rm *.a
+rm *.so
+cd ../../../../jpeglib
+rm *.o
+rm *.a

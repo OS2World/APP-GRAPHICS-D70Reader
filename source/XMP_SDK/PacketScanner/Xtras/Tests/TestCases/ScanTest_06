@@ -1,0 +1,42 @@
+Packets without the bytes attribute, with and without encoding attribute and all quote combos     |
+                                                                                                  |
+          1         2         3         4         5         6         7         8         9       9
+ 4 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678
+ 5 no "bytes", no encoding, writable:                                                             |
+ 6 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> all single  <?xpacket end='w'?> ---tG |
+ 7                                                                                                |
+ 8 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?> all double  <?xpacket end="w"?> ---tG |
+ 9                                                                                                |
+10 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d"?> all but one single                	  |
+11                      			 									<?xpacket end='w'?> ---tG |                                                                                               |
+12 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d"?> all but one double                	  |
+13                      			 									<?xpacket end="w"?> ---tG |
+14 no "bytes", no encoding, read-only:  														  |
+15 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?> all single  <?xpacket end='r'?> ---tG |
+16                                                                                                |
+17 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?> all double  <?xpacket end="r"?> ---tG |
+18                                                                                                |
+19 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d"?> all but one single                	  |
+20                      			 									<?xpacket end='r'?> ---tG |                                                                                               |
+21 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding='UTF-8'?> all but one double   |
+22                      			 									<?xpacket end="r"?> ---tG |
+23 no "bytes", with encoding, writable:															  |
+24 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding='UTF-8'?> all single           |
+25                      			 									<?xpacket end='w'?> ---tG |
+26 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8"?> all double           |
+27                      			 									<?xpacket end="w"?> ---tG |
+28 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding='UTF-8'?> all but one single   |
+29                      			 									<?xpacket end='w'?> ---tG |
+30 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8"?> all but one double   |
+31                      			 									<?xpacket end="w"?> ---tG |
+32 no "bytes", with encoding, read-only:														  |
+33 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding='UTF-8'?> all single           |
+34                      			 									<?xpacket end='r'?> ---tG |
+35 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8"?> all double           |
+36                      			 									<?xpacket end="r"?> ---tG |
+37 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding='UTF-8'?> all but one single   |
+38                      			 									<?xpacket end='r'?> ---tG |
+39 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8"?> all but one double   |
+40                      			 									<?xpacket end="r"?> ---tG |                                                                                                |
+          1         2         3         4         5         6         7         8         9       9
+42 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678

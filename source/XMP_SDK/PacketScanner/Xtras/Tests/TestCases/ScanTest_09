@@ -1,0 +1,46 @@
+ Packets with bytes attribute, with encoding, writable and all quote combos                       |
+                                                                                                  |
+          1         2         3         4         5         6         7         8         9       9
+ 4 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678
+ 5 with "bytes", with encoding, writable, all single quotes:                                      |
+ 6 +++hG <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding='UTF-8' bytes='800'?>          |
+ 7                                                                              <?xpacket end='w'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+15 with "bytes", with encoding, writable, all double quotes:                                      |                                                      |
+16 +++hG <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8" bytes="800"?>          |
+17                                                                              <?xpacket end="w"?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+25 with "bytes", with encoding, writable, all but one single quote:                               |                                                               |
+26 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding='UTF-8' bytes='800'?>          |
+27                                                                              <?xpacket end='w'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG
+35 with "bytes", with encoding, writable, all but one double quote:                               |      
+36 +++hG <?xpacket begin='' id="W5M0MpCehiHzreSzNTczkc9d" encoding="UTF-8" bytes="800"?>          |
+37                                                                              <?xpacket end="w"?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+                                                                                                   
+         ---pG                                                                                    |
+45        1         2         3         4         5         6         7         8         9       9
+46 345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678

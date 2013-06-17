@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMP does not write the above XML declaration.  It is     -->
+<!-- present here only for documentation.                     -->
+
+<!-- Note that this sample file uses the new name of the      -->
+<!-- Toolkit, "XMP", rather than the former name "XAP".       -->
+<!-- The current version of the XMPDumper will continue to    -->
+<!-- write out namespace prefixes beginning with "xap"        -->
+<!-- rather than "xmp".                                       -->
+
+<!-- XMP Rights Management Schema Example -->
+<!-- These properties are all optional and deal with rights  -->
+<!-- management.All alternations are for multiple languages. -->
+
+<!-- Two XML packets are shown.  The first uses an expanded  -->
+<!-- form similar to XMP's "pretty" format, with additional  -->
+<!-- comments.  The second uses XMP's compact form, but with -->
+<!-- newlines and indentation added for readability.         -->
+
+<!-- The following element is added only to make this a valid -->
+<!-- XML file. It is not a part of XMP.                       -->
+<top_level_element>
+
+<!-- ======================================================== -->
+
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <!-- Most applications will have an empty about attribute. -->
+  <!-- It is recommended, however, that the about attribute  -->
+  <!-- be set to the DocumentID or InstanceID.               -->
+
+  <rdf:Description about=''
+   xmlns:xmpRights='http://ns.adobe.com/xap/1.0/rights/'>
+
+  <xmpRights:Certificate>http://www.foo.com/myCertificate</xmpRights:Certificate>
+
+  <xmpRights:Copyright>  <!-- an alias of dc:rights -->
+    <rdf:Alt>
+      <!-- The character entity &apos; is used instead of the  -->
+      <!-- special character apostrophe since the XMP Toolkit  -->
+      <!-- converts all special characters to their equivalent -->
+      <!-- character entities when serializing the metadata.   -->
+      <rdf:li xml:lang='en'>This is a copyright notice</rdf:li>
+      <rdf:li xml:lang='fr'>C&apos;est une notification de copyright</rdf:li>
+      <rdf:li xml:lang='de'>Dieses ist ein Urheberrechtsvermerk</rdf:li>
+    </rdf:Alt>
+  </xmpRights:Copyright>
+
+  <xmpRights:Marked>False</xmpRights:Marked>
+
+  <xmpRights:Owner>
+    <rdf:Bag>
+      <rdf:li>Jane Doe</rdf:li>
+      <rdf:li>John Doe</rdf:li>
+      <rdf:li>Jack Doe</rdf:li>
+    </rdf:Bag>
+  </xmpRights:Owner>
+
+  <xmpRights:UsageTerms>
+    <rdf:Alt>
+      <!-- The following text contains Unicode characters. Note that    -->
+      <!-- the XMPDumper is not able to display all of them.            --> 
+      <rdf:li xml:lang='en'>This document can be legally used</rdf:li>
+      <rdf:li xml:lang='fr'>Ce document peut être légalement utilisé</rdf:li>
+      <rdf:li xml:lang='de'>Dieses Dokument kann erlaubterweise benutzt werden</rdf:li>
+    </rdf:Alt>
+  </xmpRights:UsageTerms>
+
+  <xmpRights:WebStatement>http://www.foo.com/myRightsStatement</xmpRights:WebStatement>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+<!-- ======================================================== -->
+
+<!-- Here is the second, compact packet with improved readability. -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF 
+ xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' 
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+ <rdf:Description about='' 
+  xmlns:xmpRights='http://ns.adobe.com/xap/1.0/rights/' 
+
+  xmpRights:Certificate='http://www.foo.com/myCertificate' 
+  xmpRights:Marked='False' 
+  xmpRights:WebStatement='http://www.foo.com/myRightsStatement'>
+   
+   <xmpRights:Owner>
+     <rdf:Bag>
+       <rdf:li>Jane Doe</rdf:li>
+       <rdf:li>John Doe</rdf:li>
+       <rdf:li>Jack Doe</rdf:li>
+     </rdf:Bag>
+   </xmpRights:Owner>
+   
+   <xmpRights:UsageTerms>
+     <rdf:Alt>
+       <rdf:li xml:lang='en'>This document can be legally used</rdf:li>
+       <rdf:li xml:lang='fr'>Ce document peut être légalement utilisé</rdf:li>
+       <rdf:li xml:lang='de'>Dieses Dokument kann erlaubterweise benutzt werden</rdf:li>
+     </rdf:Alt>
+   </xmpRights:UsageTerms>
+
+   <xmpRights:Copyright>
+     <rdf:Alt>
+       <rdf:li xml:lang='en'>This is a copyright notice</rdf:li>
+       <rdf:li xml:lang='fr'>C&apos;est une notification de copyright</rdf:li>
+       <rdf:li xml:lang='de'>Dieses ist ein Urheberrechtsvermerk</rdf:li>
+     </rdf:Alt>
+   </xmpRights:Copyright>
+
+ </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+</top_level_element>

@@ -1,0 +1,45 @@
+head	1.1;
+access;
+symbols;
+locks
+	joman:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2005.03.04.16.00.02;	author joman;	state Exp;
+branches;
+next	;
+
+
+desc
+@First Version
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/************************************************************************/
+/*	$Id$	*/
+/*									*/
+/*      Include file name:   d70reader.h 				*/
+/*                                                                      */
+/************************************************************************/
+/*	Revisions:							*/
+/*									*/
+/*	Version 0.01 - Fri Mar  4 10:53:34 EST 2005:			*/
+/*		First coding.						*/
+/************************************************************************/
+
+struct xmp_data
+{
+	unsigned short tag;
+	char *description;
+	char *value;
+	struct xmp_data *next;
+};
+
+@

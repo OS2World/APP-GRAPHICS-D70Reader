@@ -1,0 +1,19 @@
+Packets with incorrect values for attributes in header and trailer
+
+begin attribute:
+<?xpacket begin='	' id='W5M0MpCehiHzreSzNTczkc9d'?>  <?xpacket end='w'?>
+
+id attribute:
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9c'?>   <?xpacket end='w'?>
+
+encoding attribute (value is ignored, so anything is valid):
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' encoding="martian"?> <?xpacket end='w'?>---tG
+
+bytes attribute:
++++hB<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes="many"?>   <?xpacket end='w'?>---tB
+
+end attribute:
++++hG<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>   <?xpacket end='rxw'?>
+
+
+here is a valid trailer to match the above valid header <?xpacket end='w'?>---tG

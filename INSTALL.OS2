@@ -1,0 +1,14 @@
+==========================================================================
+This program can be compiled under OS/2.  The following tools were used:
+
+build_os2.cmd		-	Provided by 'Bill' (nau@tiny.net)
+EMX0.9d			-	Linux under OS/2 build tool
+GNUMake			-	Make tool
+unz551x2.exe		-	Unzip program
+gcc-3.0.4-os2-fix1.zip	-	The GCC compiler for OS/2
+
+All of these (except for build_os2.cmd) can be found here:
+
+http://hobbes.nmsu.edu/		-	The Hobbes OS/2 Archive
+==========================================================================
+

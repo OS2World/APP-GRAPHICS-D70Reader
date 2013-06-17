@@ -1,0 +1,2 @@
+#!/bin/sh
+tar -cvvpz --same-owner --numeric-owner -f ../d70reader.linux.tar.gz ./

@@ -1,0 +1,60 @@
+
+Date: April 1, 2002 (No foolin!)
+
+File: $TOP/SDK/MetadataToolkit/Build/UNIX/1-README
+
+
+
+UNIX Build Instructions for the XMP Metadata Toolkit
+====================================================
+
+  1. Prepare to build:
+
+     For AIX 4.3.3:
+
+         Login to a machine running AIX 4.3.3, platform is rs6000aix
+
+     For HP-UX 10.2
+
+         Login to a machine running HP-UX 10.2, platform is hppahpux
+
+     For Linux Redhat 6.2:
+
+         Login to a machine running Linux Redhat 6.2, platform is pentiumlinux
+
+     For Solaris 2.6:
+
+         Login to a machine running Solaris 2.6, platform is sparcsolaris
+
+  2. Build it:
+
+     cd $TOP/SDK/MetadataToolkit/Build/UNIX
+     csh BuildXMP <platform> <debug-or-release>
+
+
+How to rebuild the dependency file, depends.mak
+===============================================
+
+  You only need to do this if new files are added, existing
+  files are removed, or include file dependencies change.
+
+  1. Login to a machine running Solaris 2.6
+  
+  2. Make sure depends.mak is checked out of Perforce for edit:
+
+     cd $TOP/SDK/MetadataToolkit/Build/UNIX
+     /public/bin/p4 edit depends.mak
+
+  3. Remake dependency file:
+
+     cd $TOP/SDK/MetadataToolkit/Build/UNIX
+     make sparcsolaris debug depend
+
+  4. Check in the new depends.mak to perforce:
+
+     cd $TOP/SDK/MetadataToolkit/Build/UNIX
+     /public/bin/p4 submit
+
+
+===> the end
+

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMP does not write the above XML declaration.  It is     -->
+<!-- present here only for documentation.                     -->
+
+<!-- Note that this sample file uses the new name of the      -->
+<!-- Toolkit, "XMP", rather than the former name "XAP".       -->
+<!-- The current version of the XMPDumper will continue to    -->
+<!-- write out namespace prefixes beginning with "xap"        -->
+<!-- rather than "xmp".                                       -->
+
+<!-- XMP Media Management Schema Example -->
+<!-- These properties are designed to specify information     -->
+<!-- about documents included in other documents and their    -->
+<!-- relationship to each other.                              -->
+
+<!-- Two XML packets are shown.  The first uses an expanded   -->
+<!-- form similar to XMP's "pretty" format, with additional   -->
+<!-- comments.  The second uses XMP's compact form, but with  -->
+<!-- newlines and indentation added for readability.          -->
+
+<!-- The following element is added only to make this a valid -->
+<!-- XML file. It is not a part of XMP.                       -->
+<top_level_element>
+
+<!-- ======================================================== -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+  <!-- Most applications will have an empty about attribute. -->
+  <!-- It is recommended, however, that the about attribute  -->
+  <!-- be set to the DocumentID or InstanceID.               -->
+
+  <rdf:Description about=''
+   xmlns:stEvt='http://ns.adobe.com/xap/1.0/sType/ResourceEvent#'
+   xmlns:stRef='http://ns.adobe.com/xap/1.0/sType/ResourceRef#'
+   xmlns:stVer='http://ns.adobe.com/xap/1.0/sType/Version#'
+   xmlns:xmpMM='http://ns.adobe.com/xap/1.0/mm/'>
+
+    <!-- Assume that the following property is contained     -->
+    <!-- within a document whose renditions are embedded     -->
+    <!-- in the same file.                                   -->
+
+    <xmpMM:ContainedResources>
+      <rdf:Bag>
+
+        <rdf:li parseType='Resource'>
+          <stRef:documentID>adobe:docid:psd:9705C6F1-81BD-11d3-9CCC-006097CEC6D4</stRef:documentID>
+          <stRef:versionID>1</stRef:versionID>
+          <stRef:RenditionClass>low-res</stRef:RenditionClass>
+        </rdf:li>
+ 
+        <rdf:li parseType='Resource'>
+          <stRef:documentID>adobe:docid:psd:af7e5d9c-8db6-11d5-a7dd-cdf3d5439594</stRef:documentID>
+          <stRef:versionID>2</stRef:versionID>
+          <stRef:RenditionClass>thumbnail:jpeg</stRef:RenditionClass>
+        </rdf:li>
+
+      </rdf:Bag>
+    </xmpMM:ContainedResources>
+
+    <!-- Assume that the following property is contained     -->
+    <!-- within a document that is dependent on external     -->
+    <!-- pdf and psd files.                                  -->
+
+    <xmpMM:ContributorResources>
+      <rdf:Bag>
+
+        <rdf:li parseType='Resource'>
+          <stRef:documentID>adobe:docid:acro:9800C6F1-81CD-12d3-9CDC-0067098CEC6D5</stRef:documentID>
+          <stRef:versionID>5</stRef:versionID>
+          <stRef:RenditionClass>draft</stRef:RenditionClass>
+        </rdf:li>
+
+        <rdf:li parseType='Resource'>
+          <stRef:documentID>adobe:docid:psd:442b81f4-8db7-11d5-ab10-983e3ce3acca</stRef:documentID>
+          <stRef:versionID>4</stRef:versionID>
+          <stRef:RenditionClass>proof</stRef:RenditionClass>
+        </rdf:li>
+
+      </rdf:Bag>
+    </xmpMM:ContributorResources>
+
+    <!-- Assume that the following property is contained     --> 
+    <!-- within an InDesign file.                            -->
+
+    <xmpMM:DocumentID>adobe:docid:indd:9705C6F1-8db6-11d5-a7dd-cdf3d5439594</xmpMM:DocumentID>
+
+    <xmpMM:History>
+      <rdf:Seq>
+
+        <rdf:li parseType='Resource'>
+          <stEvt:action>rendition created</stEvt:action>
+          <stEvt:parameters>some additonal info</stEvt:parameters>
+          <stEvt:softwareAgent>Adobe Photoshop 6.0 for Windows</stEvt:softwareAgent>
+          <stEvt:when>2001-07-25T09:45:06-07:00</stEvt:when>
+        </rdf:li>
+
+        <rdf:li parseType='Resource'>
+          <stEvt:action>version 5 created</stEvt:action>
+          <stEvt:parameters>helpful info</stEvt:parameters>
+          <stEvt:softwareAgent>Adobe InDesign 2.0 for Windows</stEvt:softwareAgent>
+          <stEvt:when>2001-08-10T10:45:39Z</stEvt:when>
+        </rdf:li>
+
+      </rdf:Seq>
+    </xmpMM:History>
+
+    <xmpMM:LastURL>http://www.foo.com/MyDocument</xmpMM:LastURL>
+
+    <xmpMM:Manager>Software Agent</xmpMM:Manager>
+
+    <xmpMM:ManageTo>http://www.foo.com/renditions/myRenditionFile</xmpMM:ManageTo>
+
+    <!-- Assume that the following property is contained     -->
+    <!-- within a resource that is the master document.      -->
+
+    <xmpMM:RenditionClass>default</xmpMM:RenditionClass>
+
+    <!-- Assume that the following property is contained     -->
+    <!-- within a document that is a rendition of an         -->
+    <!-- InDesign file.                                      -->
+
+    <xmpMM:RenditionOf parseType='Resource'>
+      <stRef:documentID>adobe:docid:indd:9705C6F1-8db6-11d5-a7dd-cdf3d5439594</stRef:documentID>
+      <stRef:versionID>3</stRef:versionID>
+      <stRef:RenditionClass>default</stRef:RenditionClass>
+    </xmpMM:RenditionOf>
+
+    <xmpMM:SaveID>25</xmpMM:SaveID>
+
+    <xmpMM:VersionID>12</xmpMM:VersionID>
+
+    <xmpMM:Versions>
+      <rdf:Seq>
+
+        <rdf:li parseType='Resource'>
+          <stVer:comments>document was checked by legal</stVer:comments>
+          <stVer:event parseType='Resource'>
+            <stEvt:action>version 4 created</stEvt:action>
+            <stEvt:parameters>some helpful info</stEvt:parameters>
+            <stEvt:softwareAgent>Adobe InDesign 2.0 for Windows</stEvt:softwareAgent>
+            <stEvt:when>2001-08-09T12:45:39Z</stEvt:when>
+          </stVer:event>
+          <stVer:modifyDate>2001-08-10T10:42:24Z</stVer:modifyDate>
+          <stVer:modifier>Lucy Legal</stVer:modifier>
+          <stVer:version>1.4</stVer:version>
+        </rdf:li>
+
+        <rdf:li parseType='Resource'>
+          <stVer:comments>document was spell checked</stVer:comments>
+          <stVer:event parseType='Resource'>
+            <stEvt:action>version 5 created</stEvt:action>
+            <stEvt:parameters>more helpful info</stEvt:parameters>
+            <stEvt:softwareAgent>Adobe InDesign 2.0 for Windows</stEvt:softwareAgent>
+            <stEvt:when>2001-08-10T10:45:39Z</stEvt:when>
+          </stVer:event>
+          <stVer:modifyDate>2001-08-10T10:42:24Z</stVer:modifyDate>
+          <stVer:modifier>Sam Spellchecker</stVer:modifier>
+          <stVer:version>1.5</stVer:version>
+        </rdf:li>
+
+      </rdf:Seq>
+    </xmpMM:Versions>
+
+  </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+<!-- ======================================================== -->
+
+<!-- Here is the second, compact packet with improved readability. -->
+
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMPTk 2.8'>
+
+<rdf:RDF 
+ xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' 
+ xmlns:iX='http://ns.adobe.com/iX/1.0/'>
+
+ <rdf:Description about='' 
+  xmlns:stEvt='http://ns.adobe.com/xap/1.0/sType/ResourceEvent#' 
+  xmlns:stRef='http://ns.adobe.com/xap/1.0/sType/ResourceRef#' 
+  xmlns:stVer='http://ns.adobe.com/xap/1.0/sType/Version#' 
+  xmlns:xmpMM='http://ns.adobe.com/xap/1.0/mm/' 
+
+  xmpMM:LastURL='http://www.foo.com/MyDocument' 
+  xmpMM:Manager='Software Agent' 
+  xmpMM:ManageTo='http://www.foo.com/renditions/myRenditionFile' 
+  xmpMM:RenditionClass='default' 
+  xmpMM:SaveID='25' 
+  xmpMM:VersionID='12'>
+
+   <xmpMM:ContainedResources>
+     <rdf:Bag>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stRef:documentID>adobe:docid:psd:9705C6F1-81BD-11d3-9CCC-006097CEC6D4</stRef:documentID>
+         <stRef:versionID>1</stRef:versionID>
+         <stRef:RenditionClass>screen</stRef:RenditionClass>
+       </rdf:li>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stRef:documentID>adobe:docid:psd:af7e5d9c-8db6-11d5-a7dd-cdf3d5439594</stRef:documentID>
+         <stRef:versionID>2</stRef:versionID>
+         <stRef:RenditionClass>thumbnail:jpeg</stRef:RenditionClass>
+       </rdf:li>
+
+     </rdf:Bag>
+   </xmpMM:ContainedResources>
+
+   <xmpMM:ContributorResources>
+     <rdf:Bag>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stRef:documentID>adobe:docid:acro:9800C6F1-81CD-12d3-9CDC-0067098CEC6D5</stRef:documentID>
+         <stRef:versionID>5</stRef:versionID>
+         <stRef:RenditionClass>draft</stRef:RenditionClass>
+       </rdf:li>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stRef:documentID>adobe:docid:psd:442b81f4-8db7-11d5-ab10-983e3ce3acca</stRef:documentID>
+         <stRef:versionID>4</stRef:versionID>
+         <stRef:RenditionClass>proof</stRef:RenditionClass>
+       </rdf:li>
+
+     </rdf:Bag>
+   </xmpMM:ContributorResources>
+   
+   <xmpMM:DocumentID>adobe:docid:indd:9705C6F1-8db6-11d5-a7dd-cdf3d5439594</xmpMM:DocumentID>
+   
+   <xmpMM:History>
+     <rdf:Seq>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stEvt:action>rendition created</stEvt:action>
+         <stEvt:parameters>some additonal info</stEvt:parameters>
+         <stEvt:softwareAgent>Adobe Photoshop 6.0 for Windows</stEvt:softwareAgent>
+         <stEvt:when>2001-07-25T09:45:06-07:00</stEvt:when>
+       </rdf:li>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stEvt:action>version 5 created</stEvt:action>
+         <stEvt:parameters>helpful info</stEvt:parameters>
+         <stEvt:softwareAgent>Adobe InDesign 2.0 for Windows</stEvt:softwareAgent>
+         <stEvt:when>2001-08-10T10:45:39Z</stEvt:when>
+       </rdf:li>
+
+     </rdf:Seq>
+   </xmpMM:History>
+   
+   <xmpMM:RenditionOf rdf:parseType='Resource'>
+     <stRef:documentID>adobe:docid:indd:9705C6F1-8db6-11d5-a7dd-cdf3d5439594</stRef:documentID>
+     <stRef:versionID>3</stRef:versionID>
+     <stRef:RenditionClass>default</stRef:RenditionClass>
+   </xmpMM:RenditionOf>
+   
+   <xmpMM:Versions>
+     <rdf:Seq>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stVer:comments>document was checked by legal</stVer:comments>
+         <stVer:event 
+          stEvt:action='version 4 created' 
+          stEvt:parameters='some helpful info' 
+          stEvt:softwareAgent='Adobe InDesign 2.0 for Windows' 
+          stEvt:when='2001-08-09T12:45:39Z'/>
+         <stVer:modifyDate>2001-08-10T10:42:24Z</stVer:modifyDate>
+         <stVer:modifier>Lucy Legal</stVer:modifier>
+         <stVer:version>1.4</stVer:version>
+       </rdf:li>
+
+       <rdf:li rdf:parseType='Resource'>
+         <stVer:comments>document was spell checked</stVer:comments>
+         <stVer:event 
+          stEvt:action='version 5 created' 
+          stEvt:parameters='more helpfulinfo' 
+          stEvt:softwareAgent='Adobe InDesign 2.0 for Windows' 
+          stEvt:when='2001-08-10T10:45:39Z'/>
+         <stVer:modifyDate>2001-08-10T10:42:24Z</stVer:modifyDate>
+         <stVer:modifier>Sam Spellchecker</stVer:modifier>
+         <stVer:version>1.5</stVer:version>
+       </rdf:li>
+
+     </rdf:Seq>
+   </xmpMM:Versions>
+
+ </rdf:Description>
+
+</rdf:RDF>
+
+</x:xmpmeta>
+<?xpacket end='r'?>
+
+</top_level_element>

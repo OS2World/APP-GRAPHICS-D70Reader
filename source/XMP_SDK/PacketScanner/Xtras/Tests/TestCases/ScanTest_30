@@ -1,0 +1,44 @@
+Packets containing extra spaces (invalid)                                                         |
+                                                                                                  |
+extra space after <:                                                                              |
+< ?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'?>                            |
+                                                                                                  |
+extra space after beginning ? in header:                                                          |
+<? xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'?>                            |
+                                                                                                  |
+extra space before begin attribute:                                                               |
+<?xpacket  begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'?>                            |
+                                                                                                  |
+extra space before id attribute:                                                                  |
+<?xpacket begin=''  id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'?>                            |  
+                                                                                                  |
+extra space before encoding attribute:                                                            |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'  encoding="UTF-8"?><?xpacket end='w'?>           |
+                                                                                                  |
+extra space before bytes attribute:                                                               |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'  bytes="400"?>                 <?xpacket end='w'?>
+                                                                                                   
+                                                                                                   
+                                                                                                   
+extra space before ending ? in header:                                                            |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' ?><?xpacket end='w'?>                            |
+                                                                                                  |
+extra space after ending ? in header:                                                             |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'? ><?xpacket end='w'?>                            |
+                                                                                                  |
+extra space before beginning ? in trailer:+++hG                                                   |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>< ?xpacket end='w'?>                            |
+                                                                                                  |
+extra space after beginning ? in trailer:                                                         |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><? xpacket end='w'?>                            |
+                                                                                                  |
+extra space before end attribute:                                                                 |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket  end='w'?>                            |
+                                                                                                  |
+extra space after end attribute:                                                                  |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w' ?>                            |
+                                                                                                  |
+extra space after ending ? in trailer:                                                            |
+<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?><?xpacket end='w'? >                            |
+                                                                                                  |
+here is the good trailer: <?xpacket end='w'?>---tG

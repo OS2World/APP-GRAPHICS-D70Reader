@@ -1,0 +1,15 @@
+rcsdiff d70buildweb.c
+rcsdiff d70jpegtran.c
+rcsdiff d70reader.c
+rcsdiff d70resize.c
+rcsdiff d70utils.c
+rcsdiff XMPGizmos.h
+rcsdiff d70color.h
+rcsdiff d70config.h
+rcsdiff d70image.h
+rcsdiff d70inc1.h
+rcsdiff d70inc2.h
+rcsdiff d70reader.h
+rcsdiff d70types.h
+rcsdiff XAPDumper.cpp
+rcsdiff XMPGizmos.cpp

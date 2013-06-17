@@ -1,0 +1,1 @@
+# File: MetadataToolkit/Build/UNIX/debug.makCC_DEBUG_FLAGS = -gXMP_DEBUG_FLAGS = \   -DXAP_DEBUG_BUILD=1 \   -D_DEBUG=1 \   -D_CONSOLE=1 \   -DXAP_DEBUG_CERR=1 \   -DXAP_DEBUG_VALIDATE=1

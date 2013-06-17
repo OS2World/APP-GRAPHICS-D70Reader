@@ -1,0 +1,46 @@
+echo "Starting compile"
+
+# CSH script to build XMP on UNIX.  Builds both static and shared libraries.
+# Creates a makefile in /tmp that includes the necessary pieces.
+
+echo "After first comments"
+
+# The first parameter must be the platform.
+# The second parameter must be "debug" or "release".
+# The third parameter is optional, it may be the make target.
+
+# Must be run from this directory, it uses $PWD!
+
+echo "After top comments"
+
+if ( "$1" == "" ) then
+	echo "First parameter must be the platform!"
+	exit
+endif
+
+echo "After first if block"
+
+if ( ("$2" != "debug") && ("$2" != "release") ) then
+	echo "Second parameter must be debug or release!"
+	exit
+endif
+
+echo "Passed parameter check"
+
+set makefile="/tmp/XMP_$1_$2.mak"
+echo "# Target makefile is $makefile"
+
+echo "" > $makefile
+echo "# XMP $2 makefile for $1, do not edit by hand" >> $makefile
+echo "" >> $makefile
+
+# Order of includes is important: platform, stage, shared, depends
+
+echo "include $PWD/$1.mak" >> $makefile
+echo "include $PWD/$2.mak" >> $makefile
+echo "include $PWD/shared.mak" >> $makefile
+echo "include $PWD/depends.mak" >> $makefile
+echo "" >> $makefile
+
+make -f $makefile $3
+
